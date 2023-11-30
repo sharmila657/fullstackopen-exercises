@@ -14,7 +14,7 @@ const App = () => {
   // const increment = (state,setState) =>() => {
   //   setState(state + 1)
   // }
-  
+
   const addGood = (good,setGood) => () => {
     setGood(good + 6);
   }
@@ -24,6 +24,7 @@ const App = () => {
   const addBad = (bad, setBad)=> () => {
     setBad(bad + 1);
   }
+  let check = good || neutral || bad
 
 
   return (
@@ -34,9 +35,13 @@ const App = () => {
       <MyButton someFunction = {addBad(bad,setBad)} text = {"bad"} />
       
       <Header title2={title2} />
-      <Statistics good = {good} neutral = {neutral} bad = {bad} />
+      {
+          check ? (
+            <Statistics good={good} neutral={neutral} bad={bad} />
+          ) : <p>'No Feedback Yet!'</p>
+        }
     </div>
   )
 }
 
-export default App
+export default App;
