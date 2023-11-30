@@ -14,6 +14,7 @@ const App = () => {
   // const increment = (state,setState) =>() => {
   //   setState(state + 1)
   // }
+  
   const addGood = (good,setGood) => () => {
     setGood(good + 6);
   }
