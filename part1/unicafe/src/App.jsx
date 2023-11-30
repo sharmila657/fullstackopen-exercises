@@ -24,6 +24,7 @@ const App = () => {
   const addBad = (bad, setBad)=> () => {
     setBad(bad + 1);
   }
+  
   let check = good || neutral || bad
 
 
