@@ -1,37 +1,39 @@
 import { useState } from 'react'
 import MyButton from './components/Button'
+import Header from './components/Header'
+import Statistics from './components/Statistics'
 
 const App = () => {
+  const title1 = 'give feedback'
+  const title2 = 'statistics'
+
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  const incrementgood = () => {
-    setGood(good + 6)
+  // const increment = (state,setState) =>() => {
+  //   setState(state + 1)
+  // }
+  const addGood = (good,setGood) => () => {
+    setGood(good + 6);
+  }
+  const addNeutral = (neutral, setNeutral)=> () => {
+    setNeutral(neutral + 2);
+  }
+  const addBad = (bad, setBad)=> () => {
+    setBad(bad + 1);
   }
 
-  const incrementneutral = () => {
-    setNeutral(neutral + 2)
-  }
-
-  const incrementbad = () => {
-    setBad(bad + 1)
-  }
 
   return (
     <div>
-      <h1>give feedback</h1>
+      <Header title1 = {title1} />
+      <MyButton someFunction= {addGood(good,setGood)} text={"good"} />
+      <MyButton someFunction= {addNeutral(neutral,setNeutral)} text={"neutral"} />
+      <MyButton someFunction = {addBad(bad,setBad)} text = {"bad"} />
       
-      <MyButton someFunction={incrementgood} text={"good"} />
-      <MyButton someFunction={incrementneutral} text={"neutral"} />
-      <MyButton someFunction = {incrementbad} text = {"bad"} />
-      
-      <h1>statistics</h1>
-
-      good {good} <br/>
-      neutral {neutral} <br />
-      bad {bad} 
-      
+      <Header title2={title2} />
+      <Statistics good = {good} neutral = {neutral} bad = {bad} />
     </div>
   )
 }
