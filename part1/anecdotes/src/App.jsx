@@ -37,14 +37,19 @@ const App = () => {
 
     }
 
+  const most = votes.indexOf(Math.max(...votes)) 
+  
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <Anecdote anecdote={anecdotes[selected]} votes={votes[selected]} />
       <br/>
      <button onClick={handleVote}>vote</button>
       <button onClick={someFunction}>next anecdotes</button>
+      <h1>Anecdote with the most vote</h1>
+      <Anecdote anecdote={anecdotes[most]} votes = {votes[most]} />
     </div>
   )
 }
 
-export default App
+export default App;
