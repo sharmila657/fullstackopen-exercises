@@ -22,7 +22,7 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
-  const [votes, setVotes] = useState(new Array(anecdotes.length));
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
 
   const someFunction = () => {
     const randomIndex =Math.floor(Math.random() * anecdotes.length)
@@ -32,7 +32,7 @@ const App = () => {
   
     const handleVote = () => {
       const newvotes = [...votes]
-      newvotes[selected] += 1
+      newvotes[selected]++
       setVotes(newvotes);
 
     }
