@@ -9,7 +9,9 @@ const App = () => {
    }
   ]) 
   const [newName, setNewName] = useState('')
-  const [newVal, setNewVal]  = useState('')
+  const [newVal, setNewVal] = useState('')
+  const [searchVal, setSearchVal] = useState('')
+
 
 
   const addNote = (event) => {
@@ -17,7 +19,8 @@ const App = () => {
 
     if (persons.some(person => person.name === newName)) {
       alert(`${newName} is already added to the phonebook.`);
-      return;
+  
+     
     }
 
     const newPerson = { name: newName,number:newVal };
@@ -36,24 +39,44 @@ const App = () => {
 
   }
 
+  const handleSearch = (event) => {
+    setSearchVal(event.target.value);
+  };
+
+  const filteredPersons = persons.filter((person) =>
+    person.name.toLowerCase().includes(searchVal.toLowerCase())
+  );
+
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+    filter shown with: <input type='search' onChange={handleSearch}/>
+      </div>
+      
+      <h2>add a new</h2>
       <form onSubmit={addNote}>
         <div>
           name: <input value = {newName} onChange={handleAddNote} />
         </div>
+
         <div>
         number: <input value={newVal} onChange={handleNewVal} />
         </div>
+
         <div>
           <button type="submit">add</button>
         </div>
+
       </form>
+      
       <h2>Numbers</h2>
       <ul>
-        {persons.map((all,id) => (
-          <li key={id}>{all.name} - {all.number}</li>
+      {filteredPersons.map((person, id) => (
+          <li key={id}>
+            {person.name} - {person.number}
+          </li>
           ))}
       </ul>
     </div>
