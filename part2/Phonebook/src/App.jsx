@@ -1,12 +1,9 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
-
-debugger
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -16,13 +13,11 @@ const App = () => {
   const [searchVal, setSearchVal] = useState('')
 
   useEffect(() => {
-    const promise = axios.get("http://localhost:3001/persons");
-    promise.then((res) => {
-      setPersons(res.data);
-    });
-  }, []);
-
-
+    axios
+      .get("http://localhost:3001/persons")
+      .then((result)=> setPersons(result.data))
+    },
+   []);
 
 
   const addNote = (event) => {
@@ -31,11 +26,16 @@ const App = () => {
     if (persons.some(person => person.name === newName)) {
       alert(`${newName} is already added to the phonebook.`);
   
-     
     }
 
     const newPerson = { name: newName, number: newVal };
-    setPersons([...persons, newPerson]);
+
+    axios
+      .post("http://localhost:3001/persons", newPerson)
+      .then((result) => {
+        setPersons([...persons, result.data])
+      })
+    
     setNewName("")
     setNewVal('')
 
