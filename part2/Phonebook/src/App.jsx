@@ -4,6 +4,7 @@ import axios from "axios";
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import personsServices from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -13,9 +14,10 @@ const App = () => {
   const [searchVal, setSearchVal] = useState('')
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((result)=> setPersons(result.data))
+    personsServices.getAll()
+      .then((result) => {
+      setPersons(result)
+    })
     },
    []);
 
@@ -30,10 +32,9 @@ const App = () => {
 
     const newPerson = { name: newName, number: newVal };
 
-    axios
-      .post("http://localhost:3001/persons", newPerson)
+    personsServices.create(newPerson)
       .then((result) => {
-        setPersons([...persons, result.data])
+      setPersons([...persons,result.data])
       })
     
     setNewName("")
