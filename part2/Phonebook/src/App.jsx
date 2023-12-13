@@ -24,21 +24,45 @@ const App = () => {
   const addNote = (event) => {
     event.preventDefault();
 
-    if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to the phonebook.`);
+    // if (persons.some(person => person.name === newName)) {
+    //   alert(`${newName} is already added to the phonebook.`);
   
-    }
+    // }
 
-    const newPerson = { name: newName, number: newVal };
+    let newPerson = { name: newName, number: newVal };
 
     personsServices.create(newPerson)
       .then((result) => {
-      setPersons([...persons,result.data])
+        setPersons([...persons, result.data])
       })
     
+    
+    const existingPerson = persons.find((person) => person.name === newName);
+
+  if (existingPerson) {
+    const confirmUpdate = window.confirm(
+      `${newName} is already added to the phonebook. Replace the old number with the new one?`
+    );
+
+    if (confirmUpdate) {
+      const updatedPerson = { ...existingPerson, number: newVal };
+
+      personsServices
+        .update(existingPerson.id, updatedPerson)
+        .then((updatedPerson) => {
+          setPersons(persons.map((person) => (person.id !== updatedPerson.id ? person : updatedPerson)));
+        })
+        .catch((error) => {
+          console.error('Error updating person:', error);
+        });
+    }
+  } else {
+     newPerson = { name: newName, number: newVal };
+  }
     setNewName("")
     setNewVal('')
-
+    
+   
   }
 
   const handleAddNote = (event) => {
