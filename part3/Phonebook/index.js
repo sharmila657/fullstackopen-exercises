@@ -30,7 +30,7 @@ const presentDate = new Date();
 const personCount = persons.length;
 
 app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
+    response.send('<h1>Phonebook</h1>')
   })
 
 app.get('/api/persons', (resuest,response) => {
@@ -48,9 +48,19 @@ app.get('/api/persons/:id', (request,response) => {
     if (person) {
         response.send(person);
     } else {
-        response.status(404).end()
+        response.status(404).json({error:'Person not found'})
     }
 })
+app.delete("/api/persons/:id", (request, response) => {  
+    const id = Number(request.params.id);
+    persons = persons.filter((person) => person.id !== id);
+    if (persons) {
+      response.status(204).end();
+    } else {
+    response.status(404).json({error:'Person not found'})
+    }
+  });
+
 const PORT = 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
