@@ -26,6 +26,10 @@ let persons = [
     ]
 ]
 
+const presentDate = new Date();
+// console.log(presentDate);
+const personCount = persons.length;
+
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
   })
@@ -33,7 +37,13 @@ app.get('/', (request, response) => {
 app.get('/api/persons', (resuest,response) => {
     response.json(persons)
 }) 
- 
+
+app.get('/info', (request, response) => {
+    response.send(
+        `<p>Phonebook has info for ${personCount} people <br> ${presentDate} </br> </p>`
+    )
+})
+
 const PORT = 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
