@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json());
+
 let persons = [
     
         { 
@@ -55,10 +57,18 @@ app.delete("/api/persons/:id", (request, response) => {
     const id = Number(request.params.id);
     persons = persons.filter((person) => person.id !== id);
     if (persons) {
-      response.status(204).end();
+        response.status(204).end();
     } else {
     response.status(404).json({error:'Person not found'})
     }
+});
+  
+app.post('/api/persons', (request, response) => {
+    const newPerson = request.body;
+  
+    newPerson.id = Math.floor(Math.random() * 1000000) + 1;
+    response.json(newPerson);
+    persons = [...persons, newPerson];
   });
 
 const PORT = 3001
