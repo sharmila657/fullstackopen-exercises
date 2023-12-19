@@ -2,10 +2,14 @@ const express = require('express')
 const app = express()
 const morgan = require("morgan")
 
+const cors = require('cors')
+
+app.use(cors())
 app.use(express.json());
+app.use(express.static("dist"))
+
 
 morgan.token('postData', (request, response) => JSON.stringify(request.body));
-
 app.use(morgan('tiny'));
 
 let persons = [
@@ -36,9 +40,9 @@ const presentDate = new Date();
 // console.log(presentDate);
 const personCount = persons.length;
 
-app.get('/', (request, response) => {
-    response.send('<h1>Phonebook</h1>')
-  })
+// app.get('/', (request, response) => {
+//     response.send('<h1>Phonebook</h1>')
+//   })
 
 app.get('/api/persons', (resuest,response) => {
     response.json(persons)
@@ -82,6 +86,6 @@ app.post('/api/persons', (request, response) => {
     persons = [...persons, newPerson];
   });
 
-const PORT = 3001
+const PORT = process.env.PORT ? process.env.PORT : 3001;
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
