@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const morgan = require("morgan")
-
 const cors = require('cors')
 
 app.use(cors())
@@ -39,10 +38,6 @@ let persons = [
 const presentDate = new Date();
 // console.log(presentDate);
 const personCount = persons.length;
-
-// app.get('/', (request, response) => {
-//     response.send('<h1>Phonebook</h1>')
-//   })
 
 app.get('/api/persons', (resuest,response) => {
     response.json(persons)
