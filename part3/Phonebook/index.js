@@ -2,45 +2,45 @@ const express = require('express')
 const app = express()
 const morgan = require("morgan")
 const cors = require('cors')
+const mongoose = require('mongoose')
+require("dotenv").config();
+
+const url = process.env.MONGODB_URI
+
+mongoose.set('strictQuery', false)
+mongoose.connect(url)
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  number: String,
+})
+
+personSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
+
+const Person = mongoose.model('Person', personSchema)
+console.log(Person, "mongodb")
 
 app.use(cors())
 app.use(express.json());
 app.use(express.static("dist"))
-
-
-morgan.token('postData', (request, response) => JSON.stringify(request.body));
 app.use(morgan('tiny'));
 
-let persons = [
-    
-        { 
-          "id": 1,
-          "name": "Arto Hellas", 
-          "number": "040-123456"
-        },
-        { 
-          "id": 2,
-          "name": "Ada Lovelace", 
-          "number": "39-44-5323523"
-        },
-        { 
-          "id": 3,
-          "name": "Dan Abramov", 
-          "number": "12-43-234345"
-        },
-        { 
-          "id": 4,
-          "name": "Mary Poppendieck", 
-          "number": "39-23-6423122"
-        }
-    ]
+let persons = []
 
 const presentDate = new Date();
 // console.log(presentDate);
 const personCount = persons.length;
 
-app.get('/api/persons', (resuest,response) => {
-    response.json(persons)
+app.get('/api/persons', (resuest, response) => {
+  Person.find({}).then((result) => {
+    response.json(result) 
+  })
 }) 
 
 app.get('/info', (request, response) => {
@@ -48,14 +48,18 @@ app.get('/info', (request, response) => {
         `<p>Phonebook has info for ${personCount} people <br> ${presentDate} </br> </p>`
     )
 })
-app.get('/api/persons/:id', (request,response) => {
-    const id = Number(request.params.id);
-    const person = persons.find((person) => person.id === id);
-    if (person) {
-        response.send(person);
+app.get('/api/persons/:id', (request, response) => {
+  Person.findById(request.params.id).then(result => {
+    if (result) {
+        response.send(result);
     } else {
-        response.status(404).json({error:'Person not found'})
+        response.status(404).send({error:'id not found'})
     }
+    
+  }).catch(e => {
+    console.log(e)
+    response.status(500).send()
+  })
 })
 app.delete("/api/persons/:id", (request, response) => {  
     const id = Number(request.params.id);
@@ -81,6 +85,5 @@ app.post('/api/persons', (request, response) => {
     persons = [...persons, newPerson];
   });
 
-const PORT = process.env.PORT ? process.env.PORT : 3001;
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+app.listen(process.env.PORT)
+console.log(`Server running on port ${process.env.PORT}`)
