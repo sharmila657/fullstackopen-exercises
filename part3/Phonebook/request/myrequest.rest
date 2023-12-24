@@ -11,3 +11,12 @@ Content-Type: application/json
  "name":"Sharmila",
  "number":"123"
 }
+###
+
+PUT http://localhost:3001/api/persons/65886bd9cc6556d98f0141af
+Content-Type: application/json
+
+{
+    "name":"Sharmila",
+    "number":"321"
+}
