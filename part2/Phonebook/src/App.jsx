@@ -41,11 +41,11 @@ const App = () => {
   const addNote = (event) => {
     event.preventDefault();
 
-    if (persons.some(person => person.name === newName)) {
-    //   alert(`${newName} is already added to the phonebook.`);
-    showErrorNotification(`${newName} is already added to the phonebook.`)
+    // if (persons.some(person => person.name === newName)) {
+    // //   alert(`${newName} is already added to the phonebook.`);
+    // showErrorNotification(`${newName} is already added to the phonebook.`)
   
-    }
+    // }
 
     let newPerson = { name: newName, number: newVal };
 
@@ -60,35 +60,35 @@ const App = () => {
     })
     
     
-    const existingPerson = persons.find((person) => person.name === newName);
+    // const existingPerson = persons.find((person) => person.name === newName);
 
-  if (existingPerson) {
-    const confirmUpdate = window.confirm(
-      `${newName} is already added to the phonebook. Replace the old number with the new one?`
-    );
+  // if (existingPerson) {
+  //   const confirmUpdate = window.confirm(
+  //     `${newName} is already added to the phonebook. Replace the old number with the new one?`
+  //   );
 
-    if (confirmUpdate) {
-      const updatedPerson = { ...existingPerson, number: newVal };
+  //   if (confirmUpdate) {
+  //     const updatedPerson = { ...existingPerson, number: newVal };
 
-      personsServices
-        .update(existingPerson.id, updatedPerson)
-        .then((updatedPerson) => {
-          setPersons(persons.map((person) => (person.id !== updatedPerson.id ? person : updatedPerson)));
-          showSuccessNotification(`${updatedPerson.name}'s number updated successfully'`)
+  //     personsServices
+  //       .update(existingPerson.id, updatedPerson)
+  //       .then((updatedPerson) => {
+  //         setPersons(persons.map((person) => (person.id !== updatedPerson.id ? person : updatedPerson)));
+  //         showSuccessNotification(`${updatedPerson.name}'s number updated successfully'`)
 
-        })
-        .catch((error) => {
-          if (error.response && error.response.status === 404) {
-            showErrorNotification(`${updatedPerson.name} not found.`)
-          } else {
-            showErrorNotification('Error deleting person')
-          }
-          console.error('Error updating person:', error);
-        });
-    }
-  } else {
-     newPerson = { name: newName, number: newVal };
-  }
+  //       })
+  //       .catch((error) => {
+  //         if (error.response && error.response.status === 404) {
+  //           showErrorNotification(`${updatedPerson.name} not found.`)
+  //         } else {
+  //           showErrorNotification('Error deleting person')
+  //         }
+  //         console.error('Error updating person:', error);
+  //       });
+  //   }
+  // } else {
+  //    newPerson = { name: newName, number: newVal };
+  // }
     setNewName("")
     setNewVal('')
     
