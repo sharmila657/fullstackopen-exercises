@@ -38,7 +38,7 @@ app.get('/api/persons', (resuest, response) => {
   })
 }) 
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(result => {
     if (result) {
         response.send(result);
@@ -46,8 +46,7 @@ app.get('/api/persons/:id', (request, response) => {
       response.status(404).send({ error: `${request.params.id} not found` })
     }
   }).catch(e => {
-    console.log(e)
-    response.status(500).send({error: `${request.params.id} is not in required format`})
+    next(e)
   })
 })
 app.delete('/api/persons/:id', (request, response) => {
@@ -74,6 +73,19 @@ app.post('/api/persons', (request, response) => {
     response.json(savedPerson)
   })
 })
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
+// this has to be the last loaded middleware.
+app.use(errorHandler)
 
 app.listen(process.env.PORT)
 console.log(`Server running on port ${process.env.PORT}`)
