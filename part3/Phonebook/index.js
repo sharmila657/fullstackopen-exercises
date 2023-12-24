@@ -31,11 +31,6 @@ app.use(express.json());
 app.use(express.static("dist"))
 app.use(morgan('tiny'));
 
-let persons = []
-
-const presentDate = new Date();
-// console.log(presentDate);
-const personCount = persons.length;
 
 app.get('/api/persons', (resuest, response) => {
   Person.find({}).then((result) => {
@@ -43,22 +38,16 @@ app.get('/api/persons', (resuest, response) => {
   })
 }) 
 
-app.get('/info', (request, response) => {
-    response.send(
-        `<p>Phonebook has info for ${personCount} people <br> ${presentDate} </br> </p>`
-    )
-})
 app.get('/api/persons/:id', (request, response) => {
   Person.findById(request.params.id).then(result => {
     if (result) {
         response.send(result);
     } else {
-        response.status(404).send({error:'id not found'})
+      response.status(404).send({ error: `${request.params.id} not found` })
     }
-    
   }).catch(e => {
     console.log(e)
-    response.status(500).send()
+    response.status(500).send({error: `${request.params.id} is not in required format`})
   })
 })
 app.delete("/api/persons/:id", (request, response) => {  
@@ -72,18 +61,22 @@ app.delete("/api/persons/:id", (request, response) => {
 });
   
 app.post('/api/persons', (request, response) => {
-    const newPerson = request.body;
-    if (!newPerson.name || !newPerson.number) {
-        return response.status(400).json({ error: 'content missing' });
-    }
-    const nameExists = persons.some(entry => entry.name === newPerson.name);
-    if (nameExists) {
-      return response.status(400).json({ error: 'Name must be unique' });
-    }
-    newPerson.id = Math.floor(Math.random() * 1000000);
-    response.json(newPerson);
-    persons = [...persons, newPerson];
-  });
+  // console.log(request,"???")
+  const newperson = request.body
+
+  if (newperson.name === undefined) {
+    return response.status(400).json({ error: 'content missing' })
+  }
+
+  const person = new Person({
+    name: newperson.name,
+    number: newperson.number
+  })
+
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
+})
 
 app.listen(process.env.PORT)
 console.log(`Server running on port ${process.env.PORT}`)
