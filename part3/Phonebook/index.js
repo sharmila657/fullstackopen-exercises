@@ -11,7 +11,11 @@ mongoose.set('strictQuery', false)
 mongoose.connect(url)
 
 const personSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    minlength: 3,
+    required: true,
+  },
   number: String,
 })
 
@@ -55,7 +59,8 @@ app.get('/api/persons/:id', (request, response, next) => {
 const presentDate = new Date();
 app.get('/info',async(request, response) => {
 const personCount = await Person.countDocuments({});
-  response.send(
+  
+response.send(
       `<p>Database has info for ${personCount} people <br> ${presentDate} </br> </p>`
   )
 })
@@ -82,14 +87,9 @@ app.delete('/api/persons/:id', (request, response) => {
     })
 })
   
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   // console.log(request,"???")
   const newperson = request.body
-
-  if (newperson.name === undefined) {
-    return response.status(400).json({ error: 'content missing' })
-  }
-
   const person = new Person({
     name: newperson.name,
     number: newperson.number
@@ -97,15 +97,20 @@ app.post('/api/persons', (request, response) => {
 
   person.save().then(savedPerson => {
     response.json(savedPerson)
-  })
+  }).catch(e => {
+    next(e)
+    })
 })
-
+ 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  }
+  else if (error.name === 'ValidationError') {
+    return response.status(400).json({error: error.message})
+  }
 
   next(error)
 }
