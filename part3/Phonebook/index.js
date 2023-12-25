@@ -50,6 +50,16 @@ app.get('/api/persons/:id', (request, response, next) => {
   })
 })
 
+
+
+const presentDate = new Date();
+app.get('/info',async(request, response) => {
+const personCount = await Person.countDocuments({});
+  response.send(
+      `<p>Database has info for ${personCount} people <br> ${presentDate} </br> </p>`
+  )
+})
+
 app.put('/api/persons/:id', (request, response, next) => {
   const newPerson = request.body
 
