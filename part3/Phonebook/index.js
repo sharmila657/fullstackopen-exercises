@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const express = require('express')
 const app = express()
 const morgan = require("morgan")
@@ -92,7 +93,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response) => {
   Person.findByIdAndDelete(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end()
     })
 })
@@ -128,5 +129,6 @@ const errorHandler = (error, request, response, next) => {
 // this has to be the last loaded middleware.
 app.use(errorHandler)
 
+// eslint-disable-next-line no-undef
 app.listen(process.env.PORT)
 console.log(`Server running on port ${process.env.PORT}`)
