@@ -48,23 +48,14 @@ const App = () => {
     // }
 
     let newPerson = { name: newName, number: newVal };
-    let val = newPerson.name
-    let num = newPerson.number
     personsServices.create(newPerson)
       .then((result) => {
         setPersons([...persons, result.data])
         showSuccessNotification(`${newPerson.name} added to the phonebook.`)
       })
       .catch(error => {
-        if (val) {
-          showErrorNotification(`Person validation failed: name: Path 'name' ('${val}') is shorter than the minimum allowed length (3)`)
-        }
-        else if (num) {
-          showErrorNotification(`Person validation failed: number: ('${num}') is not a valid phone number!`)
-
-        }
-        console.error('Error adding person:', error)
-    })
+        showErrorNotification(error.response.data.error)
+      })
     
     
     const existingPerson = persons.find((person) => person.name === newName);
