@@ -7,7 +7,20 @@ app.get('/', (request, response) => {
       .then(blogs => {
         response.json(blogs)
       })
-  })
+})
+  
+app.get('/:id', (request, response,next) => {
+    Bloglist.findById(request.params.id).then(result => {
+        if (result) {
+            response.send(result);
+        } else {
+            response.status(404).send({error: `${request.params.id} not found`})
+        }
+    }).catch(e => {
+        next(e)
+    })
+})
+
   
   app.post('/', (request, response) => {
     const blog = new Bloglist(request.body)
