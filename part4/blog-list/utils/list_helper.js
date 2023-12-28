@@ -63,11 +63,39 @@ const favoriteBlog = (blogs) => {
       
         //Return the result as an object
         return { author: maxAuthor, blogs: maxBlogs };
+    };
+    const mostLikes = (blogs) => {
+        let authorLikes = {};
+      
+        for (const blog of blogs) {
+          const author = blog.author;
+      
+          if (authorLikes[author] === undefined) {
+            authorLikes[author] = blog.likes;
+          } else {
+            authorLikes[author] += blog.likes;
+          }
+        }
+      
+        let maxAuthor = "";
+        let maxLikes = 0;
+      
+        for (const author in authorLikes) {
+          const totalLikes = authorLikes[author];
+      
+          if (totalLikes > maxLikes) {
+            maxAuthor = author;
+            maxLikes = totalLikes;
+          }
+        }
+      
+        return { author: maxAuthor, likes: maxLikes };
       };
   
   module.exports = {
       dummy,
       totalLikes,
       favoriteBlog,
-      mostBlogs
+      mostBlogs,
+      mostLikes
   }
