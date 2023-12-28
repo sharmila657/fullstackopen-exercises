@@ -3,7 +3,13 @@ const dummy = (blogs) => {
 
 }
 const totalLikes = (blogs) => {
-    if (blogs.length === 1) {
+     let likeCount = 0;
+    if (blogs.length > 1) {
+        blogs.forEach((blog) => {
+            likeCount += blog.likes;
+        })
+    }
+    else if(blogs.length === 1) {
       likeCount = blogs[0].likes;
     }
   
