@@ -1,12 +1,10 @@
 const app = require("express").Router()
 const Bloglist = require("../models/blogSchema")
 
-app.get('/', (request, response) => {
-    Bloglist
+app.get('/', async(request, response) => {
+    const blogs = await Bloglist
       .find({})
-      .then(blogs => {
-        response.json(blogs)
-      })
+     response.json(blogs)
 })
   
 app.get('/:id', (request, response,next) => {
@@ -22,14 +20,14 @@ app.get('/:id', (request, response,next) => {
 })
 
   
-  app.post('/', (request, response) => {
+  app.post('/', async(request, response,next) => {
     const blog = new Bloglist(request.body)
-  
-    blog
-      .save()
-      .then(result => {
-        response.status(201).json(result)
-      })
+  try {
+      const result = await blog.save();
+      response.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
   })
   
 
