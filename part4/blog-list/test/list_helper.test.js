@@ -123,7 +123,7 @@ describe('favorite blog', () => {
             __v: 0
           } 
     ]
-    test('blog with the highest likes', () => {
+    test('favorite blog with the highest likes', () => {
         const result = listHelper.favoriteBlog(blogs)
         expect(result).toEqual( {
             title: "Canonical string reduction",
