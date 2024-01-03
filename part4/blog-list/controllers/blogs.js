@@ -48,5 +48,21 @@ app.delete('/:id', async (request, response,next) => {
   }
 })
 
+app.put('/:id', async (request, response, next) => {
+  const blog = {
+    title: request.body.title,
+    author: request.body.author || "",
+    url: request.body.url,
+    likes: request.body.likes || 0
+  }
+  try {
+   const updatedBlog =  await Bloglist.findByIdAndUpdate(request.params.id,blog,{new:true})
+    response.json(updatedBlog)
+  }
+  catch (error) {
+    next(error)
+  }
+})
+
 
 module.exports = app;
