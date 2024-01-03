@@ -73,6 +73,18 @@ test("creates a new blog", async () => {
   expect(response.body).toHaveLength(initialBlogs.length + 1);
 });
 
+test('missing "likes" property defaults to 0', async () => {
+  const newBlog = {
+    title: "No Likes Blog",
+    author: "No Likes Author",
+    url: "noLikesLink",
+  };
+
+  const response = await api.post("/api/blogs").send(newBlog);
+
+  expect(response.body.likes).toBe(0);
+});
+
 afterAll(async () => {
   await mongoose.connection.close()
 })

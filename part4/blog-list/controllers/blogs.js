@@ -22,6 +22,9 @@ app.get('/:id', (request, response,next) => {
   
   app.post('/', async(request, response,next) => {
     const blog = new Bloglist(request.body)
+    if (blog.likes === undefined) {
+      blog.likes = 0;
+    }
   try {
       const result = await blog.save();
       response.status(201).json(result);
