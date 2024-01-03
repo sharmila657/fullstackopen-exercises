@@ -73,7 +73,7 @@ test("creates a new blog", async () => {
   expect(response.body).toHaveLength(initialBlogs.length + 1);
 });
 
-test('missing "likes" property defaults to 0', async () => {
+test.only('missing "likes" property defaults to 0', async () => {
   const newBlog = {
     title: "No Likes Blog",
     author: "No Likes Author",
@@ -84,6 +84,14 @@ test('missing "likes" property defaults to 0', async () => {
 
   expect(response.body.likes).toBe(0);
 });
+
+test('show "400" if title and url missing', async () => {
+  const testBlog = {
+    author: "missing title",
+    likes:1
+  }  
+ await api.post('/api/blogs').send(testBlog).expect(400)
+})
 
 afterAll(async () => {
   await mongoose.connection.close()

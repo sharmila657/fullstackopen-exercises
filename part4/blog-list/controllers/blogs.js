@@ -22,8 +22,11 @@ app.get('/:id', (request, response,next) => {
   
   app.post('/', async(request, response,next) => {
     const blog = new Bloglist(request.body)
-    if (blog.likes === undefined) {
-      blog.likes = 0;
+    // if (blog.likes === undefined) {
+    //   blog.likes = 0;
+    // }
+    if (!blog.title || !blog.url) {
+      response.status(400).json({error:"missing property"}).end()
     }
   try {
       const result = await blog.save();
