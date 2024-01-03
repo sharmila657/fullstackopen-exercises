@@ -8,3 +8,9 @@ Content-Type: application/json
     "author":"LSharmila",
     "likes":5
 }
+###
+
+DELETE  http://localhost:3003/api/blogs/659530c9fcf25973903f8e7d
+
+
+

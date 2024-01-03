@@ -1,5 +1,6 @@
 const app = require("express").Router()
 const Bloglist = require("../models/blogSchema")
+const middleware = require('../utils/middleware')
 
 app.get('/', async(request, response) => {
     const blogs = await Bloglist
@@ -35,6 +36,17 @@ app.get('/:id', (request, response,next) => {
       next(error);
     }
   })
-  
+ 
+app.delete('/:id', async (request, response,next) => {
+  try { 
+    await Bloglist.findByIdAndDelete(request.params.id)
+    response.send().end()
+    
+  }
+  catch (error) {
+    next(error)
+  }
+})
+
 
 module.exports = app;
