@@ -1,6 +1,6 @@
 GET http://localhost:3003/api/blogs
-###
 
+###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
@@ -24,6 +24,18 @@ Content-Type: application/json
 ###
 
 DELETE  http://localhost:3003/api/blogs/659530c9fcf25973903f8e7d
+###
 
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username":"bloglist",
+    "name":"sharmila",
+    "password":"123456"
+}
 
 
