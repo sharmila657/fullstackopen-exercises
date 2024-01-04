@@ -1,6 +1,5 @@
 const app = require("express").Router()
 const User = require("../models/user")
-const middleware = require('../utils/middleware')
 const bcrypt = require("bcrypt")
 
 app.get('/', async(request, response) => {
