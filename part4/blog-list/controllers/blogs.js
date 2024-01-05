@@ -1,10 +1,10 @@
 const app = require("express").Router()
 const Bloglist = require("../models/blogSchema")
-const middleware = require('../utils/middleware')
+const User = require('../models/user')
 
 app.get('/', async(request, response) => {
     const blogs = await Bloglist
-      .find({})
+      .find({}).populate("user",{username:1, name: 1})
      response.json(blogs)
 })
   
@@ -22,15 +22,26 @@ app.get('/:id', (request, response,next) => {
 
   
   app.post('/', async(request, response,next) => {
-    const blog = new Bloglist(request.body)
-    // if (blog.likes === undefined) {
-    //   blog.likes = 0;
-    // }
+   
     if (!blog.title || !blog.url) {
       response.status(400).json({error:"missing property"}).end()
     }
-  try {
+    try {
+      const bloguser = await User.findById(request.body.userId);
+      const blog = new Bloglist({
+      title: request.body.title,
+      author: request.body.author,
+      url: request.body.author,
+      likes: request.body.likes || 0,
+      user: bloguser.id,
+    });
+      // if (blog.likes === undefined) {
+      //   blog.likes = 0;
+      // }
       const result = await blog.save();
+      console.log(result)
+      bloguser.Blog = bloguser.Blog.concat(result._id)
+      await bloguser.save()
       response.status(201).json(result);
     } catch (error) {
       next(error);

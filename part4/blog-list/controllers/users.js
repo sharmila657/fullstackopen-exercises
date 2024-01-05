@@ -3,9 +3,9 @@ const User = require("../models/user")
 const bcrypt = require("bcrypt")
 
 app.get('/', async(request, response) => {
-    const blogs = await User
-      .find({})
-     response.json(blogs)
+    const users = await User
+      .find({}).populate("Blog",{title:1,author:1});
+     response.json(users)
 })
   
 app.get('/:id', (request, response,next) => {
