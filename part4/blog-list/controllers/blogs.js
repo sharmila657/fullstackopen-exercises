@@ -23,9 +23,9 @@ app.get('/:id', (request, response,next) => {
   
   app.post('/', async(request, response,next) => {
    
-    if (!blog.title || !blog.url) {
-      response.status(400).json({error:"missing property"}).end()
-    }
+    // if (!blog.title || !blog.url) {
+    //   response.status(400).json({error:"missing property"}).end()
+    // }
     try {
       const bloguser = await User.findById(request.body.userId);
       const blog = new Bloglist({

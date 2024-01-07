@@ -5,9 +5,9 @@ POST http://localhost:3003/api/blogs/
 Content-Type: application/json
 
 {
-    "title":"blog16",
+    "title":"blog1",
     "author":"Sharmila",
-    "userId":"659794f2263e2d8db2ab4d8f",
+    "userId":"6599a0e1cc09568ab6b146a4",
     "url":"https://search.brave.com/search?q=goblin&source=desktop",
     "likes":10
 }
@@ -34,8 +34,18 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username":"User4",
+    "username":"User1",
     "name":"sharmila",
+    "password":"123456"
+}
+
+###
+
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username":"User1",
     "password":"123456"
 }
 
