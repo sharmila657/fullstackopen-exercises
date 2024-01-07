@@ -7,7 +7,8 @@ const blogController = require("./controllers/blogs")
 const userController = require("./controllers/users")
 const loginController = require("./controllers/login")
 
-const {noHandler,errorHandler} = require("./utils/middleware")
+const { noHandler, errorHandler } = require("./utils/middleware")
+const middleware = require("./utils/middleware")
 
 mongoose.connect(url)
 
@@ -21,6 +22,7 @@ app.use("/api/login", loginController)
 
 app.use(noHandler)
 app.use(errorHandler)
+app.use(middleware.tokenExtractor)
 
 
 module.exports = app;

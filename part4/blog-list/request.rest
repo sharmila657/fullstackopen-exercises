@@ -3,7 +3,7 @@ GET http://localhost:3003/api/blogs
 ###
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2NTk5YTBlMWNjMDk1NjhhYjZiMTQ2YTQiLCJpYXQiOjE3MDQ2NDgxMDN9.48pj0_3vsq3v8ZHT6bZP6CDa9Z6NRd4XSJ0SARzONpI
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2NTk5YTBlMWNjMDk1NjhhYjZiMTQ2YTQiLCJpYXQiOjE3MDQ2NTE2MzEsImV4cCI6MTcwNDY1MTY2MX0.5bS1ieevg9MYIxEuvKNZSrcDrtLlwcFaA_dm6vRgyik
 
 {
     "title":"blog creation using token ",
