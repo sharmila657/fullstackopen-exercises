@@ -3,9 +3,10 @@ GET http://localhost:3003/api/blogs
 ###
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2NTk5YTBlMWNjMDk1NjhhYjZiMTQ2YTQiLCJpYXQiOjE3MDQ2NDgxMDN9.48pj0_3vsq3v8ZHT6bZP6CDa9Z6NRd4XSJ0SARzONpI
 
 {
-    "title":"blog1",
+    "title":"blog creation using token ",
     "author":"Sharmila",
     "userId":"6599a0e1cc09568ab6b146a4",
     "url":"https://search.brave.com/search?q=goblin&source=desktop",
