@@ -68,6 +68,21 @@ app.delete('/:id', async (request, response,next) => {
     await Bloglist.findByIdAndDelete(request.params.id)
     response.send().end()
     
+
+    const decodedToken = jwt.verify(req.token, process.env.SECRET);
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: "token invalid" });
+    }
+
+    const user = await User.findById(decodedToken.id);
+    const blog = await Bloglist.findById(req.params.id);
+
+    if (blog.user.toString() === user.id.toString()) {
+      await Bloglist.findByIdAndRemove(req.params.id);
+      response.status(204).send("Blog deleted");
+    } else {
+      response.status(401).send("Unauthorized deletion tried");
+    }
   }
   catch (error) {
     next(error)
