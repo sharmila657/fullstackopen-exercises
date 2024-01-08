@@ -1,3 +1,6 @@
+const  User  = require("../models/user")
+const jwt = require("jsonwebtoken");
+
 
 const noHandler = (request, response) => {
     response.status(404).send("No routes found for this request")
@@ -24,14 +27,36 @@ const noHandler = (request, response) => {
     const authorization = request.get("authorization");
     if (authorization && authorization.startsWith("Bearer ")) {
       request.token = authorization.substring(7);
+      next();
     } else {
-      request.token = null;
+      response.status(401)
     }
-    next();
   };
+
+  const userExtractor = async (request, response, next) => {
+    const token = request.token;
+  
+    if (token) {
+      try {
+        const decodedToken = jwt.verify(token, process.env.SECRET);
+        if (decodedToken && decodedToken.id) {
+          const user = await User.findById(decodedToken.id);
+          if (user) {
+            request.user = user._id;
+            next();
+          }
+        }
+      } catch (error) {
+        return response.status(401).json({error:"This is the error"});
+      }
+    }
+  
+  };
+  
 
 module.exports = {
     noHandler,
   errorHandler,
-    tokenExtractor
+  tokenExtractor,
+    userExtractor
 }  

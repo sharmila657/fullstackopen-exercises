@@ -22,14 +22,7 @@ app.get('/:id', (request, response,next) => {
     })
 })
 
-const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  return null
-}
-  
+
   app.post('/', async(request, response,next) => {
    
     // if (!blog.title || !blog.url) {
@@ -37,24 +30,20 @@ const getTokenFrom = request => {
     // }
     
     try {
-      const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
-      if (!decodedToken.id) {
-        return response.status(401).json({ error: 'token invalid' })
-      }
-      const bloguser = await User.findById(decodedToken.id)
-      // const bloguser = await User.findById(request.body.userId);
+      const bloguser = await User.findById(request.user);
       const blog = new Bloglist({
       title: request.body.title,
       author: request.body.author,
-      url: request.body.author,
+      url: request.body.url,
       likes: request.body.likes || 0,
-      user: bloguser.id,
-    });
+      user: request.user,
+      });
+      
       // if (blog.likes === undefined) {
       //   blog.likes = 0;
       // }
       const result = await blog.save();
-      console.log(result)
+      // console.log(bloguser)
       bloguser.Blog = bloguser.Blog.concat(result._id)
       await bloguser.save()
       response.status(201).json(result);
@@ -64,21 +53,11 @@ const getTokenFrom = request => {
   })
  
 app.delete('/:id', async (request, response,next) => {
-  try { 
-    await Bloglist.findByIdAndDelete(request.params.id)
-    response.send().end()
-    
-
-    const decodedToken = jwt.verify(req.token, process.env.SECRET);
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: "token invalid" });
-    }
-
-    const user = await User.findById(decodedToken.id);
-    const blog = await Bloglist.findById(req.params.id);
-
+  try {
+    const user = request.user;
+    const blog = await Bloglist.findById(request.params.id);
     if (blog.user.toString() === user.id.toString()) {
-      await Bloglist.findByIdAndRemove(req.params.id);
+      await Bloglist.findByIdAndRemove(request.params.id);
       response.status(204).send("Blog deleted");
     } else {
       response.status(401).send("Unauthorized deletion tried");
