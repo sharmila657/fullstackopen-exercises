@@ -1,8 +1,8 @@
 const app = require("express").Router()
 const Bloglist = require("../models/blogSchema")
 const User = require('../models/user')
-const jwt = require('jsonwebtoken')
 
+const {tokenExtractor,userExtractor} = require("../utils/middleware")
 
 app.get('/', async(request, response) => {
     const blogs = await Bloglist
@@ -23,7 +23,7 @@ app.get('/:id', (request, response,next) => {
 })
 
 
-  app.post('/', async(request, response,next) => {
+  app.post('/',tokenExtractor,userExtractor, async(request, response,next) => {
    
     // if (!blog.title || !blog.url) {
     //   response.status(400).json({error:"missing property"}).end()
@@ -43,7 +43,6 @@ app.get('/:id', (request, response,next) => {
       //   blog.likes = 0;
       // }
       const result = await blog.save();
-      // console.log(bloguser)
       bloguser.Blog = bloguser.Blog.concat(result._id)
       await bloguser.save()
       response.status(201).json(result);
@@ -52,8 +51,11 @@ app.get('/:id', (request, response,next) => {
     }
   })
  
-app.delete('/:id', async (request, response,next) => {
-  try {
+app.delete('/:id',tokenExtractor,userExtractor, async (request, response, next) => {
+  try { 
+    // await Bloglist.findByIdAndDelete(request.params.id)
+    // response.send().end()
+
     const user = request.user;
     const blog = await Bloglist.findById(request.params.id);
     if (blog.user.toString() === user.id.toString()) {

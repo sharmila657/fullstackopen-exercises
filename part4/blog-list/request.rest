@@ -1,12 +1,13 @@
+
 GET http://localhost:3003/api/blogs
 
 ###
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2NTliODU4MTUyOTIzOWMzMDQ0M2FlNGUiLCJpYXQiOjE3MDQ3MDgwMDAsImV4cCI6MTcwNDcxMTYwMH0.wSuo5KHEX-Iyc-n7tjAUtvUN7yq37wFMqK_AP2-STws
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2NTliODU4MTUyOTIzOWMzMDQ0M2FlNGUiLCJpYXQiOjE3MDQ3Nzg2MDIsImV4cCI6MTcwNDc4MjIwMn0._6TjpDwVFpzMmMS4e8Qd42t0hRDZp1mWy411o9SJoLk
 
 {
-    "title":"Problem",
+    "title":"Problem4",
     "author":"Problem",
     "userId":"6599a0e1cc09568ab6b146a4",
     "url":"https://search.brave.com/search?q=goblin&source=desktop",
@@ -27,8 +28,9 @@ Content-Type: application/json
 
 # DELETE  http://localhost:3003/api/blogs/659530c9fcf25973903f8e7d
 ###
-DELETE  http://localhost:3003/api/blogs/659bd1bc82f2e900f52d67c9
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2NTliODU4MTUyOTIzOWMzMDQ0M2FlNGUiLCJpYXQiOjE3MDQ3MzE0MjMsImV4cCI6MTcwNDczNTAyM30.QvdxuZZNzGbRCYOf8UTWvzBV7jtBU23rY7sH-mvXNQY
+
+DELETE  http://localhost:3003/api/blogs/659cdc3e37eaa8c9ed0696d5
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2NTliODU4MTUyOTIzOWMzMDQ0M2FlNGUiLCJpYXQiOjE3MDQ3NzcxMjgsImV4cCI6MTcwNDc4MDcyOH0.K87AOueVndckrHIFpUq9JaSlDn55oY2hipK-GyPSlTo
 
 ###
 GET http://localhost:3003/api/users

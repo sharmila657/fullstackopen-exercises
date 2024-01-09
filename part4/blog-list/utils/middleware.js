@@ -23,7 +23,7 @@ const noHandler = (request, response) => {
     next(error);
   };
 
-  const tokenExtractor = (request, response, next) => {
+const tokenExtractor = (request, response, next) => {
     const authorization = request.get("authorization");
     if (authorization && authorization.startsWith("Bearer ")) {
       request.token = authorization.substring(7);
@@ -42,7 +42,7 @@ const noHandler = (request, response) => {
         if (decodedToken && decodedToken.id) {
           const user = await User.findById(decodedToken.id);
           if (user) {
-            request.user = user._id;
+            request.user = user;
             next();
           }
         }
