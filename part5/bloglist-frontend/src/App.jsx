@@ -7,6 +7,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
+  const [user,setUser] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -21,16 +22,13 @@ const App = () => {
       username,
       password
     })
-    console.log("loged in user",loggedinUser)
+    setUser(loggedinUser)
   }
-
-
-  return (
-    <div>
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-    )}
+ 
+  const loginForm = () => {
+    return(
+      <div>
+        <h2>Log in to application</h2>
     <form onSubmit={handleLogin}>
         <div>
           username
@@ -49,9 +47,29 @@ const App = () => {
             name="Password"
             onChange={({ target }) => setPassword(target.value)}
           />
-        </div>
-        <button type="submit">login</button>
-      </form>
+          </div>
+          <button type="submit">login</button>
+        </form>
+  </div>
+    )
+  }
+  const blogForm = () => {
+    return (
+      <div>
+        <h2>blogs</h2>
+        <p>{user.name} logged in</p>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}
+
+      </div>
+    )
+  }
+  return (
+    <div>
+      {user === null ? loginForm() : blogForm()}
+      
+    
     </div>
   )
 }
