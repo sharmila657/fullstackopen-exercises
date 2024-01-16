@@ -1,5 +1,3 @@
-import React from "react";
-
 const Part = ({val}) => {
     console.log(val)
     return(
