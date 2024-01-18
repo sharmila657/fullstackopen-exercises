@@ -8,6 +8,12 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  //new blog state
+  const [newBlogTitle, setnewBlogTitle] = useState('')
+  const [newBlogAuthor, setnewBlogAuthor] = useState('')
+  const [newBlogUrl,setnewBlogUrl] = useState('')
+  
+  
 
   useEffect(() => {
     //get data from backend server
@@ -28,13 +34,32 @@ const App = () => {
           username,
           password
         })
-      setUser(user)
-      window.localStorage.setItem(
-        'user', JSON.stringify(user)
-    ) 
-    blogService.setToken(user.token)
+    //set user token in blogService
+    blogService.setToken(user.token);
+    console.log(user.token,"anytoken?")
+    
+    //save user data in localstorage
+    window.localStorage.setItem('user', JSON.stringify(user)) 
+   
+    //set user state
+    setUser(user);
   }
  
+  const handleAddBlog = async (event) => {
+    event.preventDefault();
+    const newBlog = {
+      title: newBlogTitle,
+      author: newBlogAuthor,
+      url: newBlogUrl
+    }
+    //send new blogs to backend
+    const createdBlog = await blogService.create(newBlog)
+
+    //add new blogs to blogs state
+    setBlogs([...blogs, createdBlog]);
+  }
+
+
     const loginForm = () => {
       return (
         <div>
@@ -74,7 +99,38 @@ const App = () => {
           {user.name} logged in
           <button onClick={handleLogout}>logout</button>
           <br />
-          <br/>
+          <br />
+          <h2>create new</h2>
+          <form onSubmit={handleAddBlog}>
+            <div>
+              Title:
+              <input
+                type="text"
+                value={newBlogTitle}
+                onChange={({ target })=>setnewBlogTitle(target.value)}
+              />
+            </div>
+            <div>
+              Author:
+              <input
+                type="text"
+                value={newBlogAuthor}
+                onChange={({ target })=>setnewBlogAuthor(target.value)}
+              />
+            </div>
+            <div>
+              Url:
+              <input
+                type="text"
+                value={newBlogUrl}
+                onChange={({ target })=>setnewBlogUrl(target.value)}
+              />
+            </div>
+
+            <button type="submit">create</button>
+          </form>
+          <br />
+          
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
@@ -85,6 +141,7 @@ const App = () => {
     return (
       <div>
         {user === null ? loginForm() : blogForm()}
+        
       </div>
     )
   }
