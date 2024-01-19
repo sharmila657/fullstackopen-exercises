@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginServices from './services/login'
 import './main.css'
+import Togglable from './components/Toggleable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -15,7 +17,6 @@ const App = () => {
   const [newBlogTitle, setnewBlogTitle] = useState('')
   const [newBlogAuthor, setnewBlogAuthor] = useState('')
   const [newBlogUrl,setnewBlogUrl] = useState('')
-  
   
 
   useEffect(() => {
@@ -82,21 +83,11 @@ const App = () => {
     },3000)
   }
 
-  const Notification = ({ type, message }) => {
-    if (message === null) {
-      return null;
-    }
-    return (<div
-      className={type === "errmessage" ? "errmessage" : "notification"} > {message}
-    </div>)
-  }
-
     const loginForm = () => {
       return (
         <div >
           <h2>Log in to application</h2>
-                      {/* <Notification message={errmessage} /> */}
-          {/* <Notification type = "notification" message={notification.message}/> */}
+        
   {notification && <Notification message={notification.message} />}
   {errmessage && <Notification type="errmessage" message={errmessage} />}
 
@@ -141,8 +132,8 @@ const App = () => {
           {user.name} logged in
           <button onClick={handleLogout}>logout</button>
           <br />
-
-          <h2>create new</h2>
+          <Togglable buttonLabel="new note">
+            <h2>create new</h2>
           <form onSubmit={handleAddBlog}>
             <div>
               Title:
@@ -170,9 +161,9 @@ const App = () => {
             </div>
 
             <button type="submit">create</button>
-          </form>
-          <br />
-          
+            </form>
+          </Togglable>
+          <br/>
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}

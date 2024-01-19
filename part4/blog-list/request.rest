@@ -29,8 +29,8 @@ Content-Type: application/json
 # DELETE  http://localhost:3003/api/blogs/659530c9fcf25973903f8e7d
 ###
 
-DELETE  http://localhost:3003/api/blogs/65a8ded72827714e69c3297a
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2NTliODU4MTUyOTIzOWMzMDQ0M2FlNGUiLCJpYXQiOjE3MDU1NjY3MzgsImV4cCI6MTcwNTU3MDMzOH0.bcKNhlRo4t5_WdMumkDMOGky_8iH_Sw9TDh5JmhH7Nw
+DELETE  http://localhost:3003/api/blogs/65a9f248abdc938a9971024d
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2NTliODU4MTUyOTIzOWMzMDQ0M2FlNGUiLCJpYXQiOjE3MDU2NTM0OTIsImV4cCI6MTcwNTY1NzA5Mn0.dqaLLsXA5H4ZasZxS9yjFKAb-3p1Dn4M_qMBTvrgOTM
 
 ###
 GET http://localhost:3003/api/users
