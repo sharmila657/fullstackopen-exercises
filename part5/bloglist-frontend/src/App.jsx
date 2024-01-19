@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginServices from './services/login'
+import './main.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState('')
+  const [errmessage , setErrmessage] = useState('')
   //new blog state
   const [newBlogTitle, setnewBlogTitle] = useState('')
   const [newBlogAuthor, setnewBlogAuthor] = useState('')
@@ -30,19 +33,32 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log('logging in with', username, password)
-        let user = await loginServices.login({
-          username,
-          password
-        })
-    //set user token in blogService
-    blogService.setToken(user.token);
-    console.log(user.token,"anytoken?")
-    
-    //save user data in localstorage
-    window.localStorage.setItem('user', JSON.stringify(user)) 
-   
-    //set user state
-    setUser(user);
+    try {   
+      let user = await loginServices.login({
+        username,
+        password
+      })
+  //set user token in blogService
+  blogService.setToken(user.token);
+  console.log(user.token,"anytoken?")
+  
+  //save user data in localstorage
+  window.localStorage.setItem('user', JSON.stringify(user)) 
+ 
+  //set user state
+  setUser(user);
+  setNotification({ message: `${user.username} logged in` })
+  setTimeout(() => {
+    setNotification(null)
+  },3000)
+      
+    }
+    catch (error){
+      setErrmessage("wrong username or password")
+      setTimeout(() => {
+        setErrmessage(null)
+      },1000)
+    }
   }
  
   const handleAddBlog = async (event) => {
@@ -57,13 +73,33 @@ const App = () => {
 
     //add new blogs to blogs state
     setBlogs([...blogs, createdBlog]);
+    setnewBlogTitle('')
+    setnewBlogAuthor('')
+    setnewBlogUrl('')
+    setNotification({ message:`A new blog ${createdBlog.title}! by ${createdBlog.author} added successfully.` })
+    setTimeout(() => {
+    setNotification(null)
+    },3000)
   }
 
+  const Notification = ({ type, message }) => {
+    if (message === null) {
+      return null;
+    }
+    return (<div
+      className={type === "errmessage" ? "errmessage" : "notification"} > {message}
+    </div>)
+  }
 
     const loginForm = () => {
       return (
-        <div>
+        <div >
           <h2>Log in to application</h2>
+                      {/* <Notification message={errmessage} /> */}
+          {/* <Notification type = "notification" message={notification.message}/> */}
+  {notification && <Notification message={notification.message} />}
+  {errmessage && <Notification type="errmessage" message={errmessage} />}
+
           <form onSubmit={handleLogin}>
             <div>
               username
@@ -91,15 +127,21 @@ const App = () => {
   const blogForm = () => {
     const handleLogout = () => {
       window.localStorage.removeItem('user');
+      setNotification({ message: `${user.username} logged out` });
       setUser(null);
+      setTimeout(() => {
+        setNotification(null);
+      }, 2000);
       }
       return (
         <div>
           <h2>blogs</h2>
+          <Notification message={notification ? notification.message : null}/>
+          
           {user.name} logged in
           <button onClick={handleLogout}>logout</button>
           <br />
-          <br />
+
           <h2>create new</h2>
           <form onSubmit={handleAddBlog}>
             <div>
