@@ -5,6 +5,8 @@ import blogService from './services/blogs'
 import loginServices from './services/login'
 import './main.css'
 import Togglable from './components/Toggleable'
+import BlogForm from './components/BlogForm'
+import LoginForm from './components/LoginForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -90,32 +92,20 @@ const App = () => {
         
   {notification && <Notification message={notification.message} />}
   {errmessage && <Notification type="errmessage" message={errmessage} />}
-
-          <form onSubmit={handleLogin}>
-            <div>
-              username
-              <input
-                type="text"
-                value={username}
-                name="Username"
-                onChange={({ target }) => setUsername(target.value)}
-              />
-            </div>
-            <div>
-              password
-              <input
-                type="password"
-                value={password}
-                name="Password"
-                onChange={({ target }) => setPassword(target.value)}
-              />
-            </div>
-            <button type="submit">login</button>
-          </form>
+  
+          <Togglable buttonLabel="Login">  
+          <LoginForm
+            handleLogin={handleLogin}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            username={username}
+            password={password}
+          />
+         </Togglable>
         </div>
       )
     }
-  const blogForm = () => {
+  
     const handleLogout = () => {
       window.localStorage.removeItem('user');
       setNotification({ message: `${user.username} logged out` });
@@ -123,45 +113,26 @@ const App = () => {
       setTimeout(() => {
         setNotification(null);
       }, 2000);
-      }
+    }
+  
+  const blogForm = () => {
       return (
         <div>
           <h2>blogs</h2>
           <Notification message={notification ? notification.message : null}/>
-          
           {user.name} logged in
           <button onClick={handleLogout}>logout</button>
           <br />
           <Togglable buttonLabel="new note">
-            <h2>create new</h2>
-          <form onSubmit={handleAddBlog}>
-            <div>
-              Title:
-              <input
-                type="text"
-                value={newBlogTitle}
-                onChange={({ target })=>setnewBlogTitle(target.value)}
-              />
-            </div>
-            <div>
-              Author:
-              <input
-                type="text"
-                value={newBlogAuthor}
-                onChange={({ target })=>setnewBlogAuthor(target.value)}
-              />
-            </div>
-            <div>
-              Url:
-              <input
-                type="text"
-                value={newBlogUrl}
-                onChange={({ target })=>setnewBlogUrl(target.value)}
-              />
-            </div>
-
-            <button type="submit">create</button>
-            </form>
+            <BlogForm 
+              handleAddBlog={handleAddBlog}
+              newBlogTitle={newBlogTitle}
+              newBlogAuthor={newBlogAuthor}
+              newBlogUrl={newBlogUrl}
+              setnewBlogTitle={setnewBlogTitle}
+              setnewBlogAuthor={setnewBlogAuthor}
+              setnewBlogUrl={setnewBlogUrl}
+            />
           </Togglable>
           <br/>
           {blogs.map(blog =>
