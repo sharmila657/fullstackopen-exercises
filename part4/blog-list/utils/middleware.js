@@ -24,9 +24,11 @@ const noHandler = (request, response) => {
   };
 
 const tokenExtractor = (request, response, next) => {
-    const authorization = request.get("authorization");
-    if (authorization && authorization.startsWith("Bearer ")) {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+
       request.token = authorization.substring(7);
+
       next();
     } else {
       response.status(401)
@@ -35,7 +37,6 @@ const tokenExtractor = (request, response, next) => {
 
   const userExtractor = async (request, response, next) => {
     const token = request.token;
-  
     if (token) {
       try {
         const decodedToken = jwt.verify(token, process.env.SECRET);
@@ -47,7 +48,7 @@ const tokenExtractor = (request, response, next) => {
           }
         }
       } catch (error) {
-        return response.status(401).json({error:"This is the error"});
+        return response.status(401).json({error:"userExtactor"});
       }
     }
   
