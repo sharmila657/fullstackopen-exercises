@@ -33,6 +33,7 @@ const Blog = ({ blog }) => {
             </button>
           </div>
           <div>{blog.author}</div>
+          <div>{blog.user.name}</div>
         </div>
       )}
     </div>

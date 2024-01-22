@@ -41,10 +41,6 @@ const App = () => {
         username,
         password
       })
-  //set user token in blogService
-  blogService.setToken(user.token);
-  console.log(user.token,"anytoken?")
-  
   //save user data in localstorage
   window.localStorage.setItem('user', JSON.stringify(user)) 
  
@@ -70,7 +66,7 @@ const App = () => {
       title: newBlogTitle,
       author: newBlogAuthor,
       url: newBlogUrl
-    }
+    }    
     //send new blogs to backend
     const createdBlog = await blogService.create(newBlog)
 
