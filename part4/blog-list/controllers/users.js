@@ -23,7 +23,6 @@ app.get('/:id', (request, response,next) => {
   
   app.post('/', async(request, response,next) => {
     const { username, name, password } = request.body
-    console.log({ username, name, password } ,"body")
     
       const saltRounds = 10
       const passwordHash = await bcrypt.hash(password, saltRounds)

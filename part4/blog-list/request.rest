@@ -4,25 +4,26 @@ GET http://localhost:3003/api/blogs
 ###
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2NTliODU4MTUyOTIzOWMzMDQ0M2FlNGUiLCJpYXQiOjE3MDQ3Nzg2MDIsImV4cCI6MTcwNDc4MjIwMn0._6TjpDwVFpzMmMS4e8Qd42t0hRDZp1mWy411o9SJoLk
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2NWFlNDI0OTQyMTI0Yzc3MjM2OTljYjgiLCJpYXQiOjE3MDU5MTkwNzEsImV4cCI6MTcwNTkyMjY3MX0.gUv77vj5zU00_bxyQvyydZ1GUg9Ugx4i6w5EpLxSEMA
 
 {
-    "title":"Problem4",
-    "author":"Problem",
+    "title":"The Joel Test: 12 Steps to Better Code",
+    "author":"Joel Spolsky",
     "userId":"6599a0e1cc09568ab6b146a4",
-    "url":"https://search.brave.com/search?q=goblin&source=desktop",
-    "likes":10
+    "url":"https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/",
+    "likes":0
 }
 ###
 
-PUT http://localhost:3003/api/blogs/659acd97aa58b9424a2188e6
+PUT http://localhost:3003/api/blogs/65ae42ef42124c7723699cbf
 Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2NWFlNDI0OTQyMTI0Yzc3MjM2OTljYjgiLCJpYXQiOjE3MDU5ODkyNzUsImV4cCI6MTcwNTk5Mjg3NX0.tCH5n0v78i0v7NPmqC2Ft_EzjrYCw6K-tspPnewhUZo._6TjpDwVFpzMmMS4e8Qd42t0hRDZp1mWy411o9SJoLk
 
 {
-    "title":"blog3",
-    "author":"Sharmilajirel",
-    "url":"https://search.brave.com/search?q=goblin&source=desktop",
-    "likes":15
+    "title":"The Joel Test: 12 Steps to Better Code",
+    "author":"Joel Spolsky",
+    "url":"https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/",
+    "likes":100
 }
 ###
 
@@ -40,8 +41,8 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username":"User1",
-    "name":"sharmila",
+    "username":"mluukkai",
+    "name":"Matti Luukkainen",
     "password":"123456"
 }
 
@@ -51,7 +52,7 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "username":"User1",
+    "username":"mluukkai",
     "password":"123456"
 }
 
