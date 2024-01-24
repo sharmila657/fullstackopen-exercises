@@ -11,6 +11,12 @@ const Blog = ({ blog, setBlogs }) => {
     marginBottom: 5,
   };
 
+  blogStyle.removebutton = {
+    backgroundColor: "blue",
+    color: "white",
+    cursor: "pointer",
+    border:"solid"
+}
   const togglAble = () => {
     setShowDetails(!showDetails);
   };
@@ -32,6 +38,18 @@ const Blog = ({ blog, setBlogs }) => {
     }
   };
 
+  const handleDelete = async (blog) => {
+    const confirmation = window.confirm("Do you really want to remove this blog?");
+    if (confirmation) {
+      try {
+        await blogService.deleteBlog(blog.id);
+        setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
+      } catch (error) {
+        console.error("Error deleting blog:", error);
+      }
+    }
+  };
+
   return (
     <div style={blogStyle}>
       <div>
@@ -47,6 +65,11 @@ const Blog = ({ blog, setBlogs }) => {
           </div>
           <div>{blog.author}</div>
           <div>{blog.user.name}</div>
+          <div>
+            <button onClick={() => handleDelete(blog)}
+            style={blogStyle.removebutton}
+            >Remove</button>
+            </div>
         </div>
       )}
     </div>

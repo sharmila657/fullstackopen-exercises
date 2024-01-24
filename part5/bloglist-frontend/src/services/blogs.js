@@ -30,11 +30,26 @@ const update = async (id,blogToUpdate) => {
   }
   try {
     const response = await axios.put(`${baseUrl}/${id}`, blogToUpdate, config);
-    console.log(response.data,"from update service")
     return response.data;
   } catch (error) {
     console.error('Error updating blog:', error);
   }
 };
 
-export default { getAll, create, setToken,update}
+const deleteBlog = async (id) => {
+  const myToken = setToken()
+  const config = {
+    headers: { Authorization: myToken },
+  }
+  try {
+    
+    const response = await axios.delete(`${baseUrl}/${id}`, config)
+    return response;
+  }
+  catch (error) {
+    console.error('error deleting blog', error)
+  }
+  
+}
+
+export default { getAll, create, setToken,update,deleteBlog}
