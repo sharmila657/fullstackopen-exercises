@@ -2,7 +2,7 @@ import { useState } from "react";
 import blogService from "../services/blogs";
 
 const Blog = ({ blog, setBlogs }) => {
-  const [showDetails, setShowDetails] = useState("");
+  const [blogToShow, setBlogToShow] = useState([]);
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -15,10 +15,7 @@ const Blog = ({ blog, setBlogs }) => {
     backgroundColor: "blue",
     color: "white",
     cursor: "pointer",
-    border:"solid"
-}
-  const togglAble = () => {
-    setShowDetails(!showDetails);
+    border: "solid",
   };
 
   const handleLikes = async (blogs) => {
@@ -50,30 +47,47 @@ const Blog = ({ blog, setBlogs }) => {
     }
   };
 
-  return (
-    <div style={blogStyle}>
-      <div>
-        {blog.title}
-        <button onClick={togglAble}>{showDetails ? "Hide" : "View"}</button>
+  if (blogToShow.includes(blog.id)) {
+    return (
+      <div style={blogStyle} className="blog-div">
+          {blog.title}
+          <button
+            onClick={() =>
+              setBlogToShow(blogToShow.filter((id) => id !== blog.id))
+            }
+          >
+            hide
+          </button>
+          <br />
+          {blog.url}
+           <br/>
+             Likes: {blog.likes}{" "}
+             <button onClick={() => handleLikes(blog)}  id="like-blog" className="like-btn">Like</button>
+            <br/>
+          {blog.author}
+          <br/>
+           {blog.user.name}
+           <br/>
+             <button
+              onClick={() => handleDelete(blog)}
+              style={blogStyle.removebutton}
+            >
+              Remove
+            </button>
       </div>
-      {showDetails && (
-        <div>
-          <div>{blog.url}</div>
-          <div>
-            Likes: {blog.likes}{" "}
-            <button onClick={() => handleLikes(blog)}>Like</button>
-          </div>
-          <div>{blog.author}</div>
-          <div>{blog.user.name}</div>
-          <div>
-            <button onClick={() => handleDelete(blog)}
-            style={blogStyle.removebutton}
-            >Remove</button>
-            </div>
-        </div>
-      )}
+    )
+  }
+  return (
+    <div style={blogStyle} className="blog-div">
+      {blog.title} {blog.author}
+      <button
+        onClick={() => setBlogToShow([...blogToShow, blog.id])}>
+        view
+      </button>
     </div>
   );
 };
 
 export default Blog;
+
+
