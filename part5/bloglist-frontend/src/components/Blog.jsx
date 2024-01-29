@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, setBlogs }) => {
+const Blog = ({ blog, setBlogs,loggedinUser}) => {
   const [blogToShow, setBlogToShow] = useState([]);
   const blogStyle = {
     paddingTop: 10,
@@ -67,13 +67,17 @@ const Blog = ({ blog, setBlogs }) => {
           {blog.author}
           <br/>
            {blog.user.name}
-           <br/>
-             <button
+        <br />
+        <div>
+          {loggedinUser.username === blog.user.username ? (
+            <button
               onClick={() => handleDelete(blog)}
               style={blogStyle.removebutton}
             >
               Remove
             </button>
+          ):null}
+          </div>
       </div>
     )
   }
