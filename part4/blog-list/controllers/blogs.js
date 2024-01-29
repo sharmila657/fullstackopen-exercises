@@ -78,7 +78,7 @@ app.put('/:id', async (request, response, next) => {
     likes: request.body.likes || 0
   }
   try {
-   const updatedBlog =  await Bloglist.findByIdAndUpdate(request.params.id,blog,{new:true})
+    const updatedBlog = await Bloglist.findByIdAndUpdate(request.params.id, blog, { new: true }).populate("user", {username:1, name: 1})
     response.json(updatedBlog)
   }
   catch (error) {
