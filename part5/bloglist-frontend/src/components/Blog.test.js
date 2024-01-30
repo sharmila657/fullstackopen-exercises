@@ -55,7 +55,7 @@ test("Likes and Url will be shown when toggled", async () => {
   expect(screen.queryByText("Likes")).toBeDefined();
 });
 
-test.only("if the like button is clicked twice, the event handler the component received as props is called twice.", async () => {
+test("if the like button is clicked twice, the event handler the component received as props is called twice.", async () => {
   const blog = {
     title: "test blog",
     author: "sharmila",
