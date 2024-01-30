@@ -16,9 +16,6 @@ const App = () => {
   const [notification, setNotification] = useState("");
   const [errmessage, setErrmessage] = useState("");
   //new blog state
-  const [newBlogTitle, setnewBlogTitle] = useState("");
-  const [newBlogAuthor, setnewBlogAuthor] = useState("");
-  const [newBlogUrl, setnewBlogUrl] = useState("");
 
   useEffect(() => {
     //get data from backend server
@@ -55,21 +52,13 @@ const App = () => {
     }
   };
 
-  const handleAddBlog = async (event) => {
-    event.preventDefault();
-    const newBlog = {
-      title: newBlogTitle,
-      author: newBlogAuthor,
-      url: newBlogUrl,
-    };
+  const handleAddBlog = async (newBlog) => {
     //send new blogs to backend
     const createdBlog = await blogService.create(newBlog);
 
     //add new blogs to blogs state
     setBlogs([...blogs, createdBlog]);
-    setnewBlogTitle("");
-    setnewBlogAuthor("");
-    setnewBlogUrl("");
+
     setNotification({
       message: `A new blog ${createdBlog.title}! by ${createdBlog.author} added successfully.`,
     });
@@ -134,19 +123,11 @@ const App = () => {
         <button onClick={handleLogout}>logout</button>
         <br />
         <Togglable buttonLabel="new note">
-          <BlogForm
-            handleAddBlog={handleAddBlog}
-            newBlogTitle={newBlogTitle}
-            newBlogAuthor={newBlogAuthor}
-            newBlogUrl={newBlogUrl}
-            setnewBlogTitle={setnewBlogTitle}
-            setnewBlogAuthor={setnewBlogAuthor}
-            setnewBlogUrl={setnewBlogUrl}
-          />
+          <BlogForm handleAddBlog={handleAddBlog} />
         </Togglable>
         <br />
         {blogs
-          .sort((a,b)=>b.likes - a.likes)
+          .sort((a, b) => b.likes - a.likes)
           .map((blog) => (
             <Blog
               key={blog.id}
@@ -155,7 +136,7 @@ const App = () => {
               loggedinUser={user}
               handleLikes={handleLikes}
             />
-        ))}
+          ))}
       </div>
     );
   };
