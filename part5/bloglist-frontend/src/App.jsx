@@ -135,6 +135,7 @@ const App = () => {
               setBlogs={setBlogs}
               loggedinUser={user}
               handleLikes={handleLikes}
+              setNotification={setNotification}
             />
           ))}
       </div>
