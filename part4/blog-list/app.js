@@ -20,7 +20,10 @@ app.use("/api/blogs",blogController)
 app.use("/api/users", userController)
 app.use("/api/login", loginController)
 
-
+if (process.env.NODE_ENV === "test") {
+    const testingRouter = require("./controllers/testing");
+    app.use("/api/testing", testingRouter);
+  }
 
 app.use(noHandler)
 app.use(errorHandler)
