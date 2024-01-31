@@ -4,7 +4,8 @@ const LoginForm = ({handleLogin,setUsername,setPassword,username,password}) => {
             <form onSubmit={handleLogin}>
          <div>
            username
-           <input
+            <input
+            id="username"
              type="text"
              value={username}
              name="Username"
@@ -13,7 +14,8 @@ const LoginForm = ({handleLogin,setUsername,setPassword,username,password}) => {
          </div>
          <div>
            password
-           <input
+            <input
+              id="password"
              type="password"
              value={password}
              name="Password"
