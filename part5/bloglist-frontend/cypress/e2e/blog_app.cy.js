@@ -31,9 +31,9 @@ describe("Blog app", function () {
       cy.get("#username").type("Cypress");
       cy.get("#password").type("wrong-password");
       cy.contains("login").click();
-      cy.contains("Wrong credentials");
-      cy.get(".error").should("have.css", "color", "rgb(255, 0, 0)");
-      cy.get(".error").should("have.css", "border-style", "solid");
+      cy.get(".errmessage").should("contain", "wrong username or password")
+      cy.get('.errmessage').should('have.css', 'color', 'rgb(255, 0, 0)')
+      cy.get(".errmessage").should("have.css", "border-style", "solid");
     });
   });
 })
