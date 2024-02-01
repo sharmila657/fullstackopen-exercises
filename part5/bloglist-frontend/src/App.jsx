@@ -44,6 +44,8 @@ const App = () => {
       setTimeout(() => {
         setNotification(null);
       }, 3000);
+      setUsername("");
+      setPassword("");
     } catch (error) {
       setErrmessage("wrong username or password");
       setTimeout(() => {
