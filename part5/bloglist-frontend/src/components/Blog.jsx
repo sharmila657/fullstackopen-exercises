@@ -1,6 +1,12 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
-const Blog = ({ blog, setBlogs, loggedinUser, handleLikes,setNotification}) => {
+const Blog = ({
+  blog,
+  setBlogs,
+  loggedinUser,
+  handleLikes,
+  setNotification,
+}) => {
   const [blogToShow, setBlogToShow] = useState([]);
   const blogStyle = {
     paddingTop: 10,
@@ -25,9 +31,9 @@ const Blog = ({ blog, setBlogs, loggedinUser, handleLikes,setNotification}) => {
       try {
         await blogService.deleteBlog(blog.id);
         setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
-        setNotification({message:"Blog deleted successfully!"}); 
+        setNotification({ message: "Blog deleted successfully!" });
         setTimeout(() => {
-          setNotification(null); 
+          setNotification(null);
         }, 3000);
       } catch (error) {
         console.error("Error deleting blog:", error);
@@ -50,7 +56,9 @@ const Blog = ({ blog, setBlogs, loggedinUser, handleLikes,setNotification}) => {
         url: {blog.url}
         <br />
         Likes: {blog.likes}{" "}
-        <button onClick={() => handleLikes(blog)}  id="likes">Like</button>
+        <button onClick={() => handleLikes(blog)} id="likes" className="likes">
+          Like
+        </button>
         <br />
         {blog.author}
         <br />
@@ -60,7 +68,8 @@ const Blog = ({ blog, setBlogs, loggedinUser, handleLikes,setNotification}) => {
           {loggedinUser.username === blog.user.username ? (
             <button
               onClick={() => handleDelete(blog)}
-              style={blogStyle.removebutton} id="remove"
+              style={blogStyle.removebutton}
+              id="remove"
             >
               Remove
             </button>
@@ -71,8 +80,11 @@ const Blog = ({ blog, setBlogs, loggedinUser, handleLikes,setNotification}) => {
   }
   return (
     <div style={blogStyle} className="blog-div">
-      {blog.title} {blog.author}
-      <button onClick={() => setBlogToShow([...blogToShow, blog.id])}>
+      {blog.title} {blog.author}{" "}
+      <button
+        onClick={() => setBlogToShow([...blogToShow, blog.id])}
+        className="view"
+      >
         view
       </button>
     </div>
