@@ -28,6 +28,9 @@ const reducer = (state = initialState, action) => {
           : anecdote
       );
     }
+    case "NEW-ANECDOTE": {
+      return state.concat(action.payload);
+    }
 
     default:
       return state
@@ -37,6 +40,12 @@ export const upVoteOf = (id) => {
   return {
     type: "UP-VOTE",
     payload: id,
+  };
+};
+export const newAnecdoteOf = (content) => {
+  return {
+    type: "NEW-ANECDOTE",
+    payload: asObject(content),
   };
 };
 
