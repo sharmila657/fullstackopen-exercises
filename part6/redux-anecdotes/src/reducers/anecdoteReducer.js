@@ -49,4 +49,4 @@ export const newAnecdoteOf = (content) => {
   };
 };
 
-export default reducer
+export default reducer;
