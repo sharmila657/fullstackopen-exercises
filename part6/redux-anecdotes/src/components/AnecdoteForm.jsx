@@ -3,10 +3,10 @@ import { newAnecdoteOf } from "../reducers/anecdoteReducer";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(newAnecdoteOf(e.target.newAnecdote.value));
-    e.target.newAnecdote.value = "";
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(newAnecdoteOf(event.target.newAnecdote.value));
+    event.target.newAnecdote.value = "";
   };
   return (
     <>
