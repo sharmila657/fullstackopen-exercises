@@ -1,19 +1,30 @@
-const filterReducer = (state = "", action) => {
-    switch (action.type) {
-      case "FILTER-ANECDOTE": {
-        return action.payload;
-      }
+// const filterReducer = (state = "", action) => {
+//     switch (action.type) {
+//       case "FILTER-ANECDOTE": {
+//         return action.payload;
+//       }
   
-      default:
-        return state;
-    }
-  };
+//       default:
+//         return state;
+//     }
+//   };
   
-  export const anecdoteFilterFrom = (searchTerm) => {
-    return {
-      type: "FILTER-ANECDOTE",
-      payload: searchTerm,
-    };
-  };
+//   export const anecdoteFilterFrom = (searchTerm) => {
+//     return {
+//       type: "FILTER-ANECDOTE",
+//       payload: searchTerm,
+//     };
+//   };
+import { createSlice } from "@reduxjs/toolkit";
   
-  export default filterReducer;
+const filterReducer = createSlice({
+  name: "filter",
+  initialState: "",
+  reducers: {
+    anecdoteFilterFrom(state, action) {
+      return action.payload;
+    },
+  },
+});
+export const { anecdoteFilterFrom } = filterReducer.actions;
+export default filterReducer.reducer;
