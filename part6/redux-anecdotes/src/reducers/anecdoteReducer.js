@@ -1,3 +1,5 @@
+import {createSlice} from "@reduxjs/toolkit"
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -19,34 +21,55 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-  const anecdoteReducer = (state = initialState, action) => {
-
-  switch (action.type) {
-    case "UP-VOTE": {
+const anecdoteReducer = createSlice({
+  name: "anecdotes",
+  initialState,
+  reducers: {
+    upVote(state, action) {
       return state.map((anecdote) =>
         anecdote.id === action.payload
-          ? { ...anecdote, votes: ++anecdote.votes }
+          ? { ...anecdote, votes: anecdote.votes + 1}
           : anecdote
       );
-    }
-    case "NEW-ANECDOTE": {
-      return state.concat(action.payload);
-    }
+    },
+    newAnecdote(state, action) {
+      return state.concat(asObject(action.payload));
+    },
+  },
+});
+  
 
-    default:
-      return state
-  }
-}
-export const upVoteOf = (id) => {
-  return {
-    type: "UP-VOTE",
-    payload: id,
-  };
-};
-export const newAnecdoteOf = (content) => {
-  return {
-    type: "NEW-ANECDOTE",
-    payload: asObject(content),
-  };
-};
-export default anecdoteReducer;
+  // const anecdoteReducer = (state = initialState, action) => {
+
+  // switch (action.type) {
+  //   case "UP-VOTE": {
+  //     return state.map((anecdote) =>
+  //       anecdote.id === action.payload
+  //         ? { ...anecdote, votes: ++anecdote.votes }
+  //         : anecdote
+  //     );
+  //   }
+  //   case "NEW-ANECDOTE": {
+  //     return state.concat(action.payload);
+  //   }
+
+//     default:
+//       return state;
+//   }
+// };
+// export const upVoteOf = (id) => {
+//   return {
+//     type: "UP-VOTE",
+//     payload: id,
+//   };
+// };
+
+// export const newAnecdoteOf = (content) => {
+//   return {
+//     type: "NEW-ANECDOTE",
+//     payload: asObject(content),
+//   };
+      // };
+      
+export const { upVote, newAnecdote } = anecdoteReducer.actions;
+export default anecdoteReducer.reducer;
