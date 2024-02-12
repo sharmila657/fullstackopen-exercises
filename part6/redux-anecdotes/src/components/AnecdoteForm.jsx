@@ -1,12 +1,16 @@
 import { useDispatch } from "react-redux";
 import { newAnecdote } from "../reducers/anecdoteReducer";
+import { createAnecdote } from "../services/anecdotes";
 
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    dispatch(newAnecdote(event.target.newAnecdote.value));
+    const content = event.target.newAnecdote.value;
+    const anecdoteToAdd = { content, votes: 0 };
+    const response = await createAnecdote(anecdoteToAdd);
+    dispatch(newAnecdote(response));
     event.target.newAnecdote.value = "";
   };
   return (
