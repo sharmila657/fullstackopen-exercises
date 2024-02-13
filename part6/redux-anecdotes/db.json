@@ -34,6 +34,16 @@
       "id": "9e54",
       "content": "redux using thunk",
       "votes": 0
+    },
+    {
+      "id": "4889",
+      "content": "creating necdotes using thunk",
+      "votes": 0
+    },
+    {
+      "id": "28d1",
+      "content": "saving anecdotes in db.json",
+      "votes": 0
     }
   ]
 }
