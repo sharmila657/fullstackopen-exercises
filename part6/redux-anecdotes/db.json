@@ -29,6 +29,11 @@
       "id": "693e",
       "content": "new anecdote for backend.",
       "votes": 0
+    },
+    {
+      "id": "9e54",
+      "content": "redux using thunk",
+      "votes": 0
     }
   ]
 }
