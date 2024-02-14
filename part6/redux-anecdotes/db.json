@@ -2,7 +2,7 @@
   "anecdotes": [
     {
       "content": "If it hurts, do it more often",
-      "votes": 1,
+      "votes": 4,
       "id": "1"
     },
     {
@@ -28,7 +28,7 @@
     {
       "id": "693e",
       "content": "new anecdote for backend.",
-      "votes": 0
+      "votes": 1
     },
     {
       "id": "9e54",
@@ -49,6 +49,11 @@
       "id": "c164",
       "content": "notification through thunk library",
       "votes": 1
+    },
+    {
+      "id": "318d",
+      "content": "new anecdotes after using react query",
+      "votes": 0
     }
   ]
 }
