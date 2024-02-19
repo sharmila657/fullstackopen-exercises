@@ -9,11 +9,10 @@ import { setAnecdotes } from "./reducers/anecdoteReducer";
 
 const App = () => {
   const dispatch = useDispatch();
-
   const result = useQuery({
     queryKey: ["anecdotes"],
     queryFn: getAnecdotes,
-    retry: false,
+    retry: 2,
     refetchOnWindowFocus: false
   });
 
@@ -23,9 +22,7 @@ const App = () => {
   if (result.status === "error") {
     return <div>anecdotes service is not available due to server problem</div>;
   }
-
   const anecdotes = result.data;
-
   dispatch(setAnecdotes(anecdotes));
 
   return (

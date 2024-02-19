@@ -2,7 +2,7 @@
   "anecdotes": [
     {
       "content": "If it hurts, do it more often",
-      "votes": 6,
+      "votes": 10,
       "id": "1"
     },
     {
@@ -23,12 +23,17 @@
     {
       "id": "8302",
       "content": "new anecdote for backend.",
-      "votes": 0
+      "votes": 4
     },
     {
-      "id": "e8ac",
-      "content": "hhhh",
-      "votes": 0
+      "id": "1165",
+      "content": "use mutation",
+      "votes": 2
+    },
+    {
+      "id": "35f1",
+      "content": "new anecdote from redux",
+      "votes": 4
     }
   ]
 }
