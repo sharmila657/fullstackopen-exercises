@@ -2,7 +2,7 @@
   "anecdotes": [
     {
       "content": "If it hurts, do it more often",
-      "votes": 13,
+      "votes": 16,
       "id": "1"
     },
     {
@@ -19,41 +19,6 @@
       "content": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
       "votes": 4,
       "id": "4"
-    },
-    {
-      "id": "8302",
-      "content": "new anecdote for backend.",
-      "votes": 5
-    },
-    {
-      "id": "1165",
-      "content": "use mutation",
-      "votes": 4
-    },
-    {
-      "id": "35f1",
-      "content": "new anecdote from redux",
-      "votes": 5
-    },
-    {
-      "id": "ba4c",
-      "content": "usereducer and context",
-      "votes": 1
-    },
-    {
-      "id": "5eb8",
-      "content": "use reducer and context",
-      "votes": 1
-    },
-    {
-      "id": "fcb3",
-      "content": "nnnnn",
-      "votes": 3
-    },
-    {
-      "id": "8fe3",
-      "content": "anecdotes using context and usereucer",
-      "votes": 0
     }
   ]
 }
