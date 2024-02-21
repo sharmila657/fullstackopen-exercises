@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useParams} from "react-router-dom";
 
 
 const Menu = () => {
@@ -15,14 +15,32 @@ const Menu = () => {
   )
 }
 
+const Anecdote = ({ anecdotes }) => {
+  const id = useParams().id;
+  console.log(anecdotes);
+  const anecdote = anecdotes.find((anecdote) => anecdote.id == id);
+  return (
+    <>
+      <h2>{anecdote.content}</h2>
+      <p>has {anecdote.votes} votes</p>
+      <p>for more info see <Link>{anecdote.info}</Link></p>
+    </>
+  )
+}
+
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map((anecdote) => (
+        <Link to={`/anecdotes/${anecdote.id}`} key={anecdote.id}>
+          <li>{anecdote.content}</li>
+        </Link>
+      ))}   
     </ul>
   </div>
 )
+
 
 const About = () => (
   <div>
@@ -110,7 +128,7 @@ const App = () => {
   }
 
   const anecdoteById = (id) =>
-    anecdotes.find(a => a.id === id)
+    anecdotes.find((a) => a.id === id)
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
@@ -120,7 +138,7 @@ const App = () => {
       votes: anecdote.votes + 1
     }
 
-    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
+    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)))
   }
 
   return (
@@ -131,7 +149,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path='/create' element={<CreateNew addNew={addNew} />} />
-        <Route path='/about' element={<About />}/>
+          <Route path='/about' element={<About />} />
+          <Route path='/anecdotes/:id' element={<Anecdote anecdotes= {anecdotes} />} />
       </Routes>
     </Router>
     <Footer />
