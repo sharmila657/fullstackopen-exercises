@@ -18,7 +18,7 @@ const Menu = () => {
 
 const Anecdote = ({ anecdotes }) => {
   const id = useParams().id;
-  // console.log(anecdotes);
+// console.log(content,"content")
   const anecdote = anecdotes.find((anecdote) => anecdote.id == id);
   return (
     <>
@@ -69,7 +69,7 @@ const CreateNew = (props) => {
   const content = useField("");
   const author = useField("");
   const info = useField("");
-console.log(content,"content")
+// console.log(content,"content")
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -79,6 +79,12 @@ console.log(content,"content")
       info:info.value,
       votes: 0
     })
+  }
+
+  const resetForm =()=>{
+    content.resetAll();
+    author.resetAll();
+    info.resetAll();
   }
 
   return (
@@ -99,6 +105,7 @@ console.log(content,"content")
         </div>
         <button>create</button>
       </form>
+      <button onClick={()=>resetForm()}>reset</button>     
     </div>
   )
 
