@@ -1,100 +1,50 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import {useCountry} from "./hooks/useCountry";
+import {useField} from "./hooks/useField";
 
-const App = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState();
-  const [weather, setWeather] = useState({
-    temp:"",
-    tempIcon:"",
-    wind:""
-  });
+const Country = ({ country }) => {
+  console.log(country, "outside useEffect");
 
-
-  useEffect(() => {
-      axios.get(`https://restcountries.com/v3.1/name/${searchQuery}`)
-        .then(response => {
-          const data = response.data;
-          setCountries(data);
-          if (data.length === 1) {
-            setSelectedCountry(data[0]);
-          } else {
-            setSelectedCountry(null);
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        });
-  }, [searchQuery]);
-
-  const handleShowCountry = (country) => {
-    setSelectedCountry(country);
-  };
-
-
-  const apiKey = import.meta.env.VITE_SOME_KEY; // Replace with your actual API key
-
-  useEffect(() => {
-      if (selectedCountry && selectedCountry.capital) {
-        console.log(selectedCountry.capital,"helelo")
-        axios
-         .get(`https://api.openweathermap.org/data/2.5/weather?q=${selectedCountry.capital[0]}&appid=${apiKey}`)
-          .then((response) => {
-            setWeather({temp:response.data.main.temp,tempIcon:response.data.weather[0].icon,wind:response.data.wind.speed});
-            console.log(response.data,"kkk")
-          })
-          .catch((error) => {
-            console.error('Error fetching weather data:', error);
-          });
-      }
-  }, [selectedCountry]);
+  if (!country) {
+    return null;
+  }
+  if (!country.found) {
+    return <div> not found...</div>;
+  }
 
   return (
     <div>
-      <p>
-        Find countries
-        <input
-          type="text"
-          placeholder="Search for a country..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </p>
+      <h3>{country.data.name.common} </h3>
+      <div>capital {country.data.capital} </div>
+      <div>population {country.data.population}</div>
+      <img
+        src={country.data.flags.png}
+        height="100"
+        alt={`flag of ${country.data.flags.alt}`}
+      />
+    </div>
+  );
+};
 
-      {countries.length > 10 && <p>Too many matches. Specify another filter.</p>}
+const App = () => {
+  const nameInput = useField("text");
+  const [name, setName] = useState("");
+  const country = useCountry(name);
+  console.log(country, "from app component");
 
-      {countries.length > 1 && countries.length <= 10 && (
-        <ul>
-          {countries.map((country) => (
-            <li key={country.name.common}>
-              {country.name.common}{' '}
-              <button onClick={() => handleShowCountry(country)}>Show</button>
-            </li>
-          ))}
-        </ul>
-      )}
+  const fetch = (e) => {
+    e.preventDefault();
+    setName(nameInput.value);
+  };
 
-      {selectedCountry && (
-        <div>
-          <h2>{selectedCountry.name.common}</h2>
-          <p>Capital: {selectedCountry.capital}</p>
-          <p>Area: {selectedCountry.area} km²</p>
-          <p>Languages: {Object.values(selectedCountry.languages).join(', ')}</p>
-          <img src={selectedCountry.flags.png} alt={`${selectedCountry.name.common} Flag`} />
+  return (
+    <div>
+       <form onSubmit={fetch}>
+ <p>Find Countriess</p>
+  <input {...nameInput} />
+      </form>
 
-
-          {weather && (
-            <div>
-              <h3>Weather in Helsinki {selectedCountry.capital[0]}</h3>
-              <p>Temperature: {weather.temp} celcius</p>
-              <img  src={` https://openweathermap.org/img/wn/${weather.tempIcon}@2x.png`}/>
-              <p>wind:{weather.wind}</p>
-            </div>
-          )}
-
-        </div>
-      )}
+      <Country country={country} />
     </div>
   );
 };
