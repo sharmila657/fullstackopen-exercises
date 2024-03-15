@@ -1,14 +1,16 @@
 import { useState } from "react";
-import blogService from "../services/blogs";
-import {useDispatch} from "react-redux"
+// import blogService from "../services/blogs";
+import {useDispatch, useSelector} from "react-redux"
 import { setNotification } from "../reducers/notificationReducer";
+import { increaseLike } from "../reducers/blogreducer";
 const Blog = ({
   blog,
-  setBlogs,
+  // setBlogs,
   loggedinUser,
-  handleLikes,
+  // handleLikes,
 }) => {
   const dispatch = useDispatch();
+  const blogs = useSelector((state)=>state.blogs)
   const [blogToShow, setBlogToShow] = useState([]);
   const blogStyle = {
     paddingTop: 10,
@@ -25,20 +27,26 @@ const Blog = ({
     border: "solid",
   };
 
-  const handleDelete = async (blog) => {
-    const confirmation = window.confirm(
-      "Do you really want to remove this blog?"
-    );
-    if (confirmation) {
-      try {
-        await blogService.deleteBlog(blog.id);
-        setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
-        dispatch(setNotification("Blog deleted successfully!",3))
-      } catch (error) {
-        console.error("Error deleting blog:", error);
-      }
-    }
+  const handleLikes = (id) => {
+    const updatedLike = blogs.find((blog) => blog.id === id);
+    dispatch(increaseLike(id));
+    dispatch(setNotification(`you have like ${updatedLike.title}`, 3));
   };
+
+  // const handleDelete = async (blog) => {
+  //   const confirmation = window.confirm(
+  //     "Do you really want to remove this blog?"
+  //   );
+  //   if (confirmation) {
+  //     try {
+  //       await blogService.deleteBlog(blog.id);
+  //       setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
+  //       dispatch(setNotification("Blog deleted successfully!",3))
+  //     } catch (error) {
+  //       console.error("Error deleting blog:", error);
+  //     }
+  //   }
+  // };
 
   if (blogToShow.includes(blog.id)) {
     return (

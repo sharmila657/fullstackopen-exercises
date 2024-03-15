@@ -1,30 +1,32 @@
 import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import Notification from "./components/Notification";
-import blogService from "./services/blogs";
 import loginServices from "./services/login";
 import "./main.css";
 import Togglable from "./components/Toggleable";
 import BlogForm from "./components/BlogForm";
 import LoginForm from "./components/LoginForm";
-
+import { useDispatch,useSelector } from "react-redux";
+import { initializedBlog,handleAddBlog } from "./reducers/blogreducer";
+import { setNotification } from "./reducers/notificationReducer";
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  const dispatch = useDispatch();
+  const blogs = useSelector(state=> state.blogs)
+  // const [blogs, setBlogs] = useState([]);
+  // const [notification,setNotification] =useState("");
+  // const [errmessage, setErrmessage] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState("");
-  const [errmessage, setErrmessage] = useState("");
-  //new blog state
 
   useEffect(() => {
-    //get data from backend server
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+// blogService.getAll().then((blogs) => setBlogs(blogs));
     //get user from localstorage if available
     let myuser = window.localStorage.getItem("user");
     if (myuser) {
       setUser(JSON.parse(myuser));
     }
+    dispatch(initializedBlog());
   }, []);
 
   const handleLogin = async (event) => {
@@ -54,29 +56,22 @@ const App = () => {
     }
   };
 
-  const handleAddBlog = async (newBlog) => {
-    //send new blogs to backend
-    const createdBlog = await blogService.create(newBlog);
-
-    //add new blogs to blogs state
-    setBlogs([...blogs, createdBlog]);
-
-    setNotification({
-      message: `A new blog ${createdBlog.title}! by ${createdBlog.author} added successfully.`,
-    });
-    setTimeout(() => {
-      setNotification(null);
-    }, 3000);
+  const handleAddblog = async (newBlog) => {
+    try{
+      dispatch(handleAddBlog(newBlog))
+      dispatch(setNotification(`Added new blog successfully`,3));
+    }catch(error){
+    dispatch(setNotification(`error`,3));
+    }
   };
+
 
   const loginForm = () => {
     return (
       <div>
         <h2>Log in to application</h2>
 
-        {notification && <Notification message={notification.message} />}
-        {errmessage && <Notification type="errmessage" message={errmessage} />}
-
+         <Notification />
         <Togglable buttonLabel="Login">
           <LoginForm
             handleLogin={handleLogin}
@@ -92,52 +87,52 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem("user");
-    setNotification({ message: `${user.username} logged out` });
+    // setNotification({ message: `${user.username} logged out` });
     setUser(null);
-    setTimeout(() => {
-      setNotification(null);
-    }, 2000);
+    // setTimeout(() => {
+    //   setNotification(null);
+    // }, 2000);
   };
 
-  const handleLikes = async (blogs) => {
-    const blogToUpdate = { ...blogs, likes: blogs.likes + 1 };
-    try {
-      const response = await blogService.update(blogToUpdate.id, blogToUpdate);
-      setBlogs((prev) => {
-        return prev.map((oldblogs) => {
-          if (oldblogs.id === response.id) {
-            return response;
-          }
-          return oldblogs;
-        });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  // const handleLikes = async (blogs) => {
+  //   const blogToUpdate = { ...blogs, likes: blogs.likes + 1 };
+  //   try {
+  //     const response = await blogService.update(blogToUpdate.id, blogToUpdate);
+  //     setBlogs((prev) => {
+  //       return prev.map((oldblogs) => {
+  //         if (oldblogs.id === response.id) {
+  //           return response;
+  //         }
+  //         return oldblogs;
+  //       });
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+      
   const blogForm = () => {
     return (
       <div>
         <h2>blogs</h2>
-        <Notification message={notification ? notification.message : null} />
+        <Notification />
         {user.name} logged in
         <button onClick={handleLogout}>logout</button>
         <br />
         <Togglable buttonLabel="new note">
-          <BlogForm handleAddBlog={handleAddBlog} />
+          <BlogForm handleAddBlog={handleAddblog} />
         </Togglable>
         <br />
         {blogs
-          .sort((a, b) => b.likes - a.likes)
+          // .sort((a, b) => b.likes - a.likes)
           .map((blog) => (
             <Blog
               key={blog.id}
               blog={blog}
-              setBlogs={setBlogs}
+              // setBlogs={setBlogs}
               loggedinUser={user}
-              handleLikes={handleLikes}
-              setNotification={setNotification}
+              // handleLikes={handleLikes}
+              // setNotification={setNotification}
             />
           ))}
       </div>
