@@ -2,6 +2,7 @@ import { useState } from "react";
 import {useDispatch, useSelector} from "react-redux"
 import { setNotification } from "../reducers/notificationReducer";
 import { increaseLike, deletedBlog } from "../reducers/blogreducer";
+import { Link } from "react-router-dom";
 const Blog = ({
   blog,
   user,
@@ -44,7 +45,7 @@ const Blog = ({
   if (blogToShow.includes(blog.id)) {
     return (
       <div style={blogStyle} className="blog-div">
-        {blog.title}
+        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
         <button
           onClick={() =>
             setBlogToShow(blogToShow.filter((id) => id !== blog.id))
@@ -79,11 +80,13 @@ const Blog = ({
     );
   }
   return (
-    <div style={blogStyle} className="blog-div">
+    <div>
+     <Link to={`/blogs/${blog.id}`}>
       {blog.title} {blog.author}{" "}
+      </Link>
+
       <button
         onClick={() => setBlogToShow([...blogToShow, blog.id])}
-        className="view"
       >
         view
       </button>
