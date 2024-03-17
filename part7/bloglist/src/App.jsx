@@ -10,11 +10,11 @@ import { useDispatch,useSelector } from "react-redux";
 import { initializedBlog,handleAddBlog } from "./reducers/blogreducer";
 import { setNotification } from "./reducers/notificationReducer";
 import { setUser } from "./reducers/userReducer";
-import { Routes,Route, Link } from "react-router-dom";
+import { Routes,Route, Link, useMatch } from "react-router-dom";
 import User from "./components/User";
 import Home from "./home/Home";
 import userService from "./services/users"
-import { UserInfo } from "./components/UserInfo";
+import { ListOfUser } from "./components/ListOfUser";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -38,6 +38,12 @@ const App = () => {
       setListOfUser(result);
     });
   }, []);
+
+  const matchUser = useMatch("/users/:id");
+
+  const singleUser = matchUser
+    ? listOfUser.find((user) => user.id === matchUser.params.id)
+    : null;
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -106,6 +112,10 @@ const App = () => {
         <Link to="/users">Users</Link>
         <Routes>
         <Route path="/users" element={<User listOfUser={listOfUser} />} />
+        <Route
+          path="/users/:id"
+          element={<ListOfUser singleUser={singleUser} />}
+        />
         <Route
           path="/"
           element={
