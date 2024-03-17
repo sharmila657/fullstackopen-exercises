@@ -9,22 +9,19 @@ import LoginForm from "./components/LoginForm";
 import { useDispatch,useSelector } from "react-redux";
 import { initializedBlog,handleAddBlog } from "./reducers/blogreducer";
 import { setNotification } from "./reducers/notificationReducer";
+import { setUser } from "./reducers/userReducer";
 const App = () => {
   const dispatch = useDispatch();
   const blogs = useSelector(state=> state.blogs)
-  // const [blogs, setBlogs] = useState([]);
-  // const [notification,setNotification] =useState("");
-  // const [errmessage, setErrmessage] = useState("");
+  const user = useSelector(state=> state.user)
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
-// blogService.getAll().then((blogs) => setBlogs(blogs));
-    //get user from localstorage if available
     let myuser = window.localStorage.getItem("user");
     if (myuser) {
-      setUser(JSON.parse(myuser));
+      let user = setUser(JSON.parse(myuser));
+      dispatch(user)
     }
     dispatch(initializedBlog());
   }, []);
@@ -38,21 +35,14 @@ const App = () => {
         password,
       });
       //save user data in localstorage
+      dispatch(setUser(user))
       window.localStorage.setItem("user", JSON.stringify(user));
-
-      //set user state
-      setUser(user);
-      setNotification({ message: `${user.username} logged in` });
-      setTimeout(() => {
-        setNotification(null);
-      }, 3000);
       setUsername("");
       setPassword("");
+      dispatch(setNotification(`${user.name} has login successfully`, 3));
+
     } catch (error) {
-      setErrmessage("wrong username or password");
-      setTimeout(() => {
-        setErrmessage(null);
-      }, 1000);
+     dispatch(setNotification("wrong username or password",3))
     }
   };
 
@@ -61,8 +51,12 @@ const App = () => {
       dispatch(handleAddBlog(newBlog))
       dispatch(setNotification(`Added new blog successfully`,3));
     }catch(error){
-    dispatch(setNotification(`error`,3));
-    }
+      dispatch(
+        setNotification(
+          "Title or author must contain more than 5 character ",
+          3
+        )
+      );    }
   };
 
 
@@ -87,11 +81,7 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem("user");
-    // setNotification({ message: `${user.username} logged out` });
-    setUser(null);
-    // setTimeout(() => {
-    //   setNotification(null);
-    // }, 2000);
+    dispatch(setUser(null));
   };
 
   // const handleLikes = async (blogs) => {

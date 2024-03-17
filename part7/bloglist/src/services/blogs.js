@@ -1,13 +1,9 @@
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 
-let token = null
+let token = null;
 
-const setToken = () => {
-  const userToken = JSON.parse(window.localStorage.getItem("user"))
-  token = `Bearer ${userToken.token}`
-  return token
-}
+// let token = JSON.parse(localStorage.getItem("loggedNoteappUser")).token;
 
 const getAll = async (blogs) => {
   const response = await axios.get(baseUrl,blogs)
@@ -15,18 +11,16 @@ const getAll = async (blogs) => {
 }
 
 const create = async (newblogs) => {
-  const myToken=setToken()
   const config = {
-    headers: { Authorization: myToken },
+    headers: { Authorization: `bearer ${token}` },
   }
   const response = await axios.post(baseUrl, newblogs, config)
   return response.data;
 }
 
 const update = async (id,blogToUpdate) => {
-  const myToken = setToken()
   const config = {
-    headers: { Authorization: myToken },
+    headers: { Authorization: `bearer ${token}` },
   }
   try {
     const response = await axios.put(`${baseUrl}/${id}`, blogToUpdate, config);
@@ -37,9 +31,8 @@ const update = async (id,blogToUpdate) => {
 };
 
 const remove = async (id) => {
-  const myToken = setToken()
   const config = {
-    headers: { Authorization: myToken },
+    headers: { Authorization: `bearer ${token}` },
   }
   try {
     
@@ -52,4 +45,4 @@ const remove = async (id) => {
   
 }
 
-export default { getAll, create, setToken,update,remove}
+export default { getAll, create,update,remove}

@@ -4,9 +4,7 @@ import { setNotification } from "../reducers/notificationReducer";
 import { increaseLike, deletedBlog } from "../reducers/blogreducer";
 const Blog = ({
   blog,
-  // setBlogs,
   loggedinUser,
-  // handleLikes,
 }) => {
   const dispatch = useDispatch();
   const blogs = useSelector((state)=>state.blogs)
@@ -58,7 +56,7 @@ const Blog = ({
         url: {blog.url}
         <br />
         Likes: {blog.likes}{" "}
-        <button onClick={() => handleLikes(blog)} id="likes" className="likes">
+        <button onClick={() => handleLikes(blog.id)} id="likes" className="likes">
           Like
         </button>
         <br />
