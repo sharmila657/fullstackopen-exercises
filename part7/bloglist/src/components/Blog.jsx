@@ -4,7 +4,7 @@ import { setNotification } from "../reducers/notificationReducer";
 import { increaseLike, deletedBlog } from "../reducers/blogreducer";
 const Blog = ({
   blog,
-  loggedinUser,
+  user,
 }) => {
   const dispatch = useDispatch();
   const blogs = useSelector((state)=>state.blogs)
@@ -65,7 +65,7 @@ const Blog = ({
         {blog.user.name}
         <br />
         <div>
-          {loggedinUser.username === blog.user.username ? (
+          {user.username === blog.user.username ? (
             <button
               onClick={() => handleDelete(blog.id)}
               style={blogStyle.removebutton}

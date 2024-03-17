@@ -10,12 +10,19 @@ import { useDispatch,useSelector } from "react-redux";
 import { initializedBlog,handleAddBlog } from "./reducers/blogreducer";
 import { setNotification } from "./reducers/notificationReducer";
 import { setUser } from "./reducers/userReducer";
+import { Routes,Route, Link } from "react-router-dom";
+import User from "./components/User";
+import Home from "./home/Home";
+import userService from "./services/users"
+import { UserInfo } from "./components/UserInfo";
+
 const App = () => {
   const dispatch = useDispatch();
   const blogs = useSelector(state=> state.blogs)
   const user = useSelector(state=> state.user)
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [listOfUser, setListOfUser] = useState([]);
 
   useEffect(() => {
     let myuser = window.localStorage.getItem("user");
@@ -26,6 +33,12 @@ const App = () => {
     dispatch(initializedBlog());
   }, []);
 
+  useEffect(() => {
+    userService.getAll().then((result) => {
+      setListOfUser(result);
+    });
+  }, []);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     console.log("logging in with", username, password);
@@ -34,7 +47,6 @@ const App = () => {
         username,
         password,
       });
-      //save user data in localstorage
       dispatch(setUser(user))
       window.localStorage.setItem("user", JSON.stringify(user));
       setUsername("");
@@ -63,8 +75,6 @@ const App = () => {
   const loginForm = () => {
     return (
       <div>
-        <h2>Log in to application</h2>
-
          <Notification />
         <Togglable buttonLabel="Login">
           <LoginForm
@@ -79,57 +89,40 @@ const App = () => {
     );
   };
 
-  const handleLogout = () => {
+  const logOut = () => {
     window.localStorage.removeItem("user");
     dispatch(setUser(null));
   };
 
-  // const handleLikes = async (blogs) => {
-  //   const blogToUpdate = { ...blogs, likes: blogs.likes + 1 };
-  //   try {
-  //     const response = await blogService.update(blogToUpdate.id, blogToUpdate);
-  //     setBlogs((prev) => {
-  //       return prev.map((oldblogs) => {
-  //         if (oldblogs.id === response.id) {
-  //           return response;
-  //         }
-  //         return oldblogs;
-  //       });
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-      
-  const blogForm = () => {
+  const blogForm = () => (
+    <Togglable buttonLabel="new blog" >
+      <BlogForm handleAddBlog={handleAddblog} />
+     </Togglable>
+  );
     return (
       <div>
-        <h2>blogs</h2>
         <Notification />
-        {user.name} logged in
-        <button onClick={handleLogout}>logout</button>
-        <br />
-        <Togglable buttonLabel="new note">
-          <BlogForm handleAddBlog={handleAddblog} />
-        </Togglable>
-        <br />
-        {blogs
-          // .sort((a, b) => b.likes - a.likes)
-          .map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              // setBlogs={setBlogs}
-              loggedinUser={user}
-              // handleLikes={handleLikes}
-              // setNotification={setNotification}
+        <Link to="/">Blogs</Link>
+        <Link to="/users">Users</Link>
+        <Routes>
+        <Route path="/users" element={<User listOfUser={listOfUser} />} />
+        <Route
+          path="/"
+          element={
+            <Home
+              user={user}
+              loginForm={loginForm}
+              logOut={logOut}
+              blogForm={blogForm}
+              blogs={blogs}
             />
-          ))}
+          }
+        />
+      </Routes>
+        <br />
       </div>
     );
   };
 
-  return <div>{user === null ? loginForm() : blogForm()}</div>;
-};
 
 export default App;
