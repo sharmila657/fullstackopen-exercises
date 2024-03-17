@@ -53,10 +53,10 @@ const App = () => {
     }catch(error){
       dispatch(
         setNotification(
-          "Title or author must contain more than 5 character ",
-          3
+          "error creating blog ",3
         )
-      );    }
+      );    
+    }
   };
 
 
