@@ -10,7 +10,7 @@ import { useDispatch,useSelector } from "react-redux";
 import { initializedBlog,handleAddBlog } from "./reducers/blogreducer";
 import { setNotification } from "./reducers/notificationReducer";
 import { setUser } from "./reducers/userReducer";
-import { Routes,Route, Link, useMatch } from "react-router-dom";
+import { Routes,Route, Link, useMatch, useNavigate } from "react-router-dom";
 import User from "./components/User";
 import Home from "./home/Home";
 import userService from "./services/users"
@@ -21,6 +21,7 @@ const App = () => {
   const dispatch = useDispatch();
   const blogs = useSelector(state=> state.blogs)
   const user = useSelector(state=> state.user)
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [listOfUser, setListOfUser] = useState([]);
@@ -104,6 +105,7 @@ const App = () => {
   const logOut = () => {
     window.localStorage.removeItem("user");
     dispatch(setUser(null));
+    navigate("/");
   };
 
   const blogForm = () => (
@@ -117,10 +119,10 @@ const App = () => {
         <Link to="/">Blogs</Link>
         <Link to="/users">Users</Link>
         <Routes>
-        <Route path="/users" element={<User listOfUser={listOfUser} />} />
+        <Route path="/users" element={<User listOfUser={listOfUser} logOut={logOut} />} />
         <Route
           path="/users/:id"
-          element={<ListOfUser singleUser={singleUser} />}
+          element={<ListOfUser singleUser={singleUser} logOut={logOut}/>}
         />
          <Route
           path="/blogs/:id"

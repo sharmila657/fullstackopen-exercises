@@ -1,9 +1,7 @@
 import React from "react";
-import { UserInfo } from "./UserInfo";
 import { Link } from "react-router-dom";
 const User = ({listOfUser}) => {
   return <div>
-    <UserInfo />
     <table>
         <thead>
           <tr>
