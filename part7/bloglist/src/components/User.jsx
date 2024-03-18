@@ -23,7 +23,7 @@ const User = ({listOfUser}) => {
                 <td>                  
                   <Link to={`/users/${user.id}`}>{user.name}</Link>
                 </td>
-                {/* <td>{user.blogs.length}</td> */}
+                <td>{user.Blog.length}</td>
               </tr>
             );
           })}

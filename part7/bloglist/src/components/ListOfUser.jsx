@@ -7,7 +7,7 @@ export const ListOfUser = ({ singleUser }) => {
       <h1>{singleUser.name}</h1>
       <h1>added blogs</h1>
         <ul>
-          {singleUser.blogs.map((blog) => (
+          {singleUser.Blog.map((blog) => (
             <li key={blog.id}>{blog.title}</li>
           ))}
         </ul>
