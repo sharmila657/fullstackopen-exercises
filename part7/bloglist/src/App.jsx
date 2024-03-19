@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Blog from "./components/Blog";
 import Notification from "./components/Notification";
 import loginServices from "./services/login";
 import "./main.css";
@@ -88,7 +87,6 @@ const App = () => {
   const loginForm = () => {
     return (
       <div>
-         <Notification />
         <Togglable buttonLabel="Login">
           <LoginForm
             handleLogin={handleLogin}

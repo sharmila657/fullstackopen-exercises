@@ -17,8 +17,8 @@ export const BlogDetails = ({ singleBlog, blogs }) => {
   const [comments, setComment] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:3003/api/blogs/${singleBlog.id}/comments`)
-      .then((result) => {
+    .get(`http://localhost:3003/api/blogs/${singleBlog.id}/comments`)
+    .then((result) => {
         setComment(result.data);
       });
   }, []);
@@ -26,12 +26,14 @@ export const BlogDetails = ({ singleBlog, blogs }) => {
   const newComment = (event) => {
     event.preventDefault();
     const comment = event.target.comment.value;
+    console.log(comment,"comment")
     axios
-      .post(`http://localhost:3003/api/blogs/${singleBlog.id}/comments`, {
-        comment,
+    .post(`http://localhost:3003/api/blogs/${singleBlog.id}/comments`, {
+      comment,
       })
       .then((result) => {
-        setComment([...comments, result.data]);
+        console.log(result,"result")
+        setComment(comments.concat(result.data));
       });
     event.target.comment.value = "";
   };
@@ -39,7 +41,6 @@ export const BlogDetails = ({ singleBlog, blogs }) => {
     <div>
       <h1>{singleBlog.title}</h1>
       <a href={singleBlog.url}>{singleBlog.url}</a>
-      &nbsp; &nbsp; &nbsp;{" "}
       <div>
         {singleBlog.likes} likes
         <button
