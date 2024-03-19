@@ -15,14 +15,16 @@ import Home from "./home/Home";
 import userService from "./services/users"
 import { ListOfUser } from "./components/ListOfUser";
 import { BlogDetails } from "./components/BlogDetails";
+import { Container } from "@mui/system";
+import { UserInfo } from "./components/UserInfo";
 
 const App = () => {
   const dispatch = useDispatch();
   const blogs = useSelector(state=> state.blogs)
   const user = useSelector(state=> state.user)
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
   const [listOfUser, setListOfUser] = useState([]);
 
   useEffect(() => {
@@ -53,6 +55,8 @@ const App = () => {
   
   const handleLogin = async (event) => {
     event.preventDefault();
+    const username = event.target.username.value;
+    const password = event.target.password.value; 
     console.log("logging in with", username, password);
     try {
       let user = await loginServices.login({
@@ -61,8 +65,8 @@ const App = () => {
       });
       dispatch(setUser(user))
       window.localStorage.setItem("user", JSON.stringify(user));
-      setUsername("");
-      setPassword("");
+      // setUsername("");
+      // setPassword("");
       dispatch(setNotification(`${user.name} has login successfully`, 3));
 
     } catch (error) {
@@ -90,10 +94,10 @@ const App = () => {
         <Togglable buttonLabel="Login">
           <LoginForm
             handleLogin={handleLogin}
-            setUsername={setUsername}
-            setPassword={setPassword}
-            username={username}
-            password={password}
+            // setUsername={setUsername}
+            // setPassword={setPassword}
+            // username={username}
+            // password={password}
           />
         </Togglable>
       </div>
@@ -112,10 +116,19 @@ const App = () => {
      </Togglable>
   );
     return (
+      <Container>
       <div>
         <Notification />
         <Link to="/">Blogs</Link>
         <Link to="/users">Users</Link>
+        {/* <span
+        style={{
+          position: "absolute",
+          right: "1000px",
+        }}
+      > */}
+        <UserInfo logOut={logOut} />
+      {/* </span> */}
         <Routes>
         <Route path="/users" element={<User listOfUser={listOfUser} logOut={logOut} />} />
         <Route
@@ -141,6 +154,7 @@ const App = () => {
       </Routes>
         <br />
       </div>
+      </Container>
     );
   };
 
