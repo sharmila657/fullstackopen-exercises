@@ -56,4 +56,16 @@ Content-Type: application/json
     "password":"123456"
 }
 
+###
+POST http://localhost:3003/api/blogs/65f02129852f1518bcaa5a32/comments
+Content-type: application/json
+
+{
+"comment": "nice blog"
+
+}
+
+###
+
+GET http://localhost:3003/api/blogs/65f02129852f1518bcaa5a32/comments
 
