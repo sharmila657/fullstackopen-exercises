@@ -15,7 +15,7 @@ import Home from "./home/Home";
 import userService from "./services/users"
 import { ListOfUser } from "./components/ListOfUser";
 import { BlogDetails } from "./components/BlogDetails";
-import { Container } from "@mui/system";
+import { Container, AppBar, Toolbar, Button } from "@mui/material";
 import { UserInfo } from "./components/UserInfo";
 
 const App = () => {
@@ -119,16 +119,28 @@ const App = () => {
       <Container>
       <div>
         <Notification />
-        <Link to="/">Blogs</Link>
-        <Link to="/users">Users</Link>
-        {/* <span
+        <div>
+        <AppBar position="static">
+            <Toolbar>
+              <Button color="inherit" component={Link} to="/">
+                Blogs
+              </Button>
+              <Button color="inherit" component={Link} to="/users">
+                Users
+              </Button>
+        <span
         style={{
           position: "absolute",
-          right: "1000px",
+          right: "100px",
         }}
-      > */}
+      >
+      </span>
+      </Toolbar>
+      </AppBar>
+      </div>
+<br/>
         <UserInfo logOut={logOut} />
-      {/* </span> */}
+
         <Routes>
         <Route path="/users" element={<User listOfUser={listOfUser} logOut={logOut} />} />
         <Route
